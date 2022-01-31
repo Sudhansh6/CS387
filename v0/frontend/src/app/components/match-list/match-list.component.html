@@ -1,0 +1,61 @@
+<div class="list row mx-auto">
+    <div class="col-md-8">
+      <!-- <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by title"
+          [(ngModel)]="title"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="searchTitle()"
+          >
+            Search
+          </button>
+        </div>
+      </div> -->
+    </div>
+    
+    <div class="col-md-6">
+      <h4>Matches</h4>
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let match of matches | paginate: { id:'pg_matches',
+          itemsPerPage: 10,
+          currentPage: page,
+          totalItems: count
+        }; let i = index"
+          [class.active]="i == currentIndex"
+          (click)="setActiveMatch(i)"
+          (dblclick)="redirectMatch(match.match_id)"
+        >
+          <b>{{ match.team1 }}</b> vs <b>{{ match.team2 }}</b> <br>
+          {{ match.stadium_name }}, {{ match.city_name }} <br>
+          <u>{{ match.winning_team }}</u> won by {{ match.win_margin }} {{ match.win_type }} 
+        </li>
+      </ul>
+<!--   
+      <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
+        Remove All
+      </button> -->
+    </div>
+    <div class="col-md-12">
+      <pagination-controls 
+        id = "pg_matches"
+        previousLabel="Prev"
+        nextLabel="Next"
+        [responsive]="true"
+        (pageChange)="handlePageChange($event)"
+      ></pagination-controls>
+    </div>
+    <div class="col-md-6">
+      <!-- <app-match-details
+        [viewMode]="true"
+        [currentMatch]="currentMatch"
+      ></app-match-details> -->
+    </div>
+  </div>
