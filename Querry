@@ -1,0 +1,37 @@
+Part B:- 
+1.select match_id from match order by season_year desc
+
+2.
+Innings-1, batting:-
+select match_id,player.player_name,out1.Runs,out1.fours,out1.sixes,out1.Balls_faced from
+(select match_id,striker,sum(runs_scored) as Runs,count( case runs_scored when 4 then 1 else null end)as fours,count( case runs_scored when 6 then 1 else null end)as sixes,count(runs_scored) as Balls_faced
+from ball_by_ball 
+where innings_no=1
+group by match_id,striker) as out1
+join player on player.player_id=out1.striker
+
+Innings-1, extras and total(runs and wickets):-
+select match_id,sum(extra_runs)as extra_runs, sum(runs_scored) as tot_runs,sum(case when out_type != 'NULL' then 1 else 0 end) as tot_wickets
+from ball_by_ball 
+where innings_no=1 
+group by match_id
+order by match_id 
+
+
+Innings-1, select match_id,player.player_name,out1.balls_bowled,out1.runs_given,out1.wickets_taken from
+(select match_id,bowler,count(runs_scored) as balls_bowled, sum(runs_scored) as runs_given,count( distinct out_type ) as wickets_taken
+from ball_by_ball 
+where innings_no=1 
+group by match_id,bowler) as out1
+join player on player.player_id=out1.bowler
+
+3.
+select match_id,over_id*6+ball_id-6 as ball_number,sum(runs_scored) over (
+	partition by match_id
+	order by over_id*6+ball_id-6
+	rows unbounded preceding
+) as runs, case when out_type != 'NULL' then 1 else 0 end as out_points, out_type
+from ball_by_ball 
+where innings_no=1
+
+4.
