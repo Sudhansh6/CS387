@@ -156,4 +156,55 @@ exports.findBowlersInnings2 = (req, res) => {
   }).catch((err) => {
     res.send(`There was an error while fetching data from the database - ${err}`);
   });
+
+
+};
+
+// Find ball by ball info of a match
+exports.findBallsInnings1 = (req, res) => {
+  const id = req.params.id
+  sequelize.query(`
+  select over_id*6+ball_id-6 as ball,
+  sum(runs_scored + extra_runs) over (
+    partition by match_id
+    order by over_id*6+ball_id-6
+    rows unbounded preceding
+  ) as runs, 
+  case when out_type != 'NULL' then 1 else 0 end as wickets, out_type
+  from ball_by_ball 
+  where innings_no=1 and match_id = ${id}
+  `, {
+    raw: true,
+    type: db.Sequelize.QueryTypes.SELECT
+  }).then((data) => {
+    res.send(data);
+  }).catch((err) => {
+    res.send(`There was an error while fetching data from the database - ${err}`);
+  });
+
+
+};
+
+exports.findBallsInnings2 = (req, res) => {
+  const id = req.params.id
+  sequelize.query(`
+  select over_id*6+ball_id-6 as ball,
+  sum(runs_scored + extra_runs) over (
+    partition by match_id
+    order by over_id*6+ball_id-6
+    rows unbounded preceding
+  ) as runs, 
+  case when out_type != 'NULL' then 1 else 0 end as wickets, out_type
+  from ball_by_ball 
+  where innings_no = 2 and match_id = ${id}
+  `, {
+    raw: true,
+    type: db.Sequelize.QueryTypes.SELECT
+  }).then((data) => {
+    res.send(data);
+  }).catch((err) => {
+    res.send(`There was an error while fetching data from the database - ${err}`);
+  });
+
+
 };

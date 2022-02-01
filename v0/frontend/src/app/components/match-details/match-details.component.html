@@ -1,144 +1,148 @@
 <div class="container">
   <div class = "container border">
+    <hr>
     <h3>Scorecard</h3>
-      <hr>
-      <div class = "container border">
-        <h4>Innings 1</h4>
-        <table class="table border">
-            <thead>
-                <tr>
-                    <th scope = "col">Batsman</th>
-                    <th scope = "col">Runs</th>
-                    <th scope = "col">Fours</th>
-                    <th scope = "col"> Sixes</th>
-                    <th scope = "col">Balls faced</th>
-                </tr>
-            </thead>
-            <tbody>    
-                <tr
-                *ngFor="let batsman of batsmenInnings1; let i = index"
-                (click)="redirectPlayer(batsman.player_id)"
-                onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
-                onmouseout="this.style.background='white';"
-                >
-                <!-- [class.active]="i == currentIndex"
-                (click)="setActiveMatch(i)"
-                (dblclick)="redirectMatch(match.match_id)" -->
-                    <th scope = "row">{{ batsman.player_name }}</th>
-                    <td>{{ batsman.runs }}</td>
-                    <td>{{ batsman.fours }}</td>
-                    <td>{{ batsman.sixes }}</td>
-                    <td>{{ batsman.balls }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table border">
+    <hr>
+    <div class = "container border">
+      <h4>Innings 1</h4>
+      <table class="table border">
           <thead>
-            <tr>
-              <th>Extras</th>
-              <th>Total</th>
-            </tr>
+              <tr>
+                  <th scope = "col">Batsman</th>
+                  <th scope = "col">Runs</th>
+                  <th scope = "col">Fours</th>
+                  <th scope = "col"> Sixes</th>
+                  <th scope = "col">Balls faced</th>
+              </tr>
           </thead>
           <tbody>    
-              <tr>
-                  <td>{{ totalInnings1.extra_runs }}</td>
-                  <td>{{ totalInnings1.tot_runs }}</td>
+              <tr
+              *ngFor="let batsman of batsmenInnings1; let i = index"
+              (click)="redirectPlayer(batsman.player_id)"
+              onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+              onmouseout="this.style.background='white';"
+              >
+              <!-- [class.active]="i == currentIndex"
+              (click)="setActiveMatch(i)"
+              (dblclick)="redirectMatch(match.match_id)" -->
+                  <th scope = "row">{{ batsman.player_name }}</th>
+                  <td>{{ batsman.runs }}</td>
+                  <td>{{ batsman.fours }}</td>
+                  <td>{{ batsman.sixes }}</td>
+                  <td>{{ batsman.balls }}</td>
               </tr>
           </tbody>
       </table>
       <table class="table border">
         <thead>
           <tr>
-              <th scope = "col">Bowler</th>
-              <th scope = "col">Balls bowled</th>
-              <th scope = "col">Runs given</th>
-              <th scope = "col">Wickets taken</th>
+            <th>Extras</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>    
+            <tr *ngFor="let innings of totalInnings1; let i = index">
+                <td>{{ innings.extra_runs }}</td>
+                <td>{{ innings.tot_runs }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table border">
+      <thead>
+        <tr>
+            <th scope = "col">Bowler</th>
+            <th scope = "col">Balls bowled</th>
+            <th scope = "col">Runs given</th>
+            <th scope = "col">Wickets taken</th>
+        </tr>
+      </thead>
+      <tbody>    
+          <tr
+          *ngFor="let bowler of bowlersInnings1; let i = index"
+          (click)="redirectPlayer(bowler.player_id)"
+          onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+          onmouseout="this.style.background='white';"
+          >
+              <th scope = "row">{{ bowler.player_name }}</th>
+              <td>{{ bowler.balls }}</td>
+              <td>{{ bowler.runs }}</td>
+              <td>{{ bowler.wickets }}</td>
+          </tr>
+      </tbody>
+    </table>
+    
+  </div>
+  <div class = "container border">
+    <h4>Innings 2</h4>
+    <table class="table border">
+        <thead>
+            <tr>
+                <th scope = "col">Batsman</th>
+                <th scope = "col">Runs</th>
+                <th scope = "col">Fours</th>
+                <th scope = "col"> Sixes</th>
+                <th scope = "col">Balls faced</th>
+            </tr>
+        </thead>
+        <tbody>    
             <tr
-            *ngFor="let bowler of bowlersInnings1; let i = index"
-            (click)="redirectPlayer(bowler.player_id)"
+            *ngFor="let batsman of batsmenInnings2; let i = index"
+            (click)="redirectPlayer(batsman.player_id)"
             onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
             onmouseout="this.style.background='white';"
             >
-                <th scope = "row">{{ bowler.player_name }}</th>
-                <td>{{ bowler.balls }}</td>
-                <td>{{ bowler.runs }}</td>
-                <td>{{ bowler.wickets }}</td>
+            <!-- [class.active]="i == currentIndex"
+            (click)="setActiveMatch(i)"
+            (dblclick)="redirectMatch(match.match_id)" -->
+                <th scope = "row">{{ batsman.player_name }}</th>
+                <td>{{ batsman.runs }}</td>
+                <td>{{ batsman.fours }}</td>
+                <td>{{ batsman.sixes }}</td>
+                <td>{{ batsman.balls }}</td>
             </tr>
         </tbody>
-      </table>
-      
+    </table>
+    <table class="table border">
+      <thead>
+        <tr>
+          <th>Extras</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>    
+          <tr *ngFor="let innings of totalInnings2; let i = index">
+              <td>{{ innings.extra_runs }}</td>
+              <td>{{ innings.tot_runs }}</td>
+          </tr>
+      </tbody>
+    </table>
+    <table class="table border">
+      <thead>
+        <tr>
+            <th scope = "col">Bowler</th>
+            <th scope = "col">Balls bowled</th>
+            <th scope = "col">Runs given</th>
+            <th scope = "col">Wickets taken</th>
+        </tr>
+      </thead>
+      <tbody>    
+          <tr
+          *ngFor="let bowler of bowlersInnings2; let i = index"
+          (click)="redirectPlayer(bowler.player_id)"
+          onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+          onmouseout="this.style.background='white';"
+          >
+              <th scope = "row">{{ bowler.player_name }}</th>
+              <td>{{ bowler.balls }}</td>
+              <td>{{ bowler.runs }}</td>
+              <td>{{ bowler.wickets }}</td>
+          </tr>
+      </tbody>
+    </table>
+  
     </div>
     <div class = "container border">
-      <h4>Innings 2</h4>
-        <table class="table border">
-            <thead>
-                <tr>
-                    <th scope = "col">Batsman</th>
-                    <th scope = "col">Runs</th>
-                    <th scope = "col">Fours</th>
-                    <th scope = "col"> Sixes</th>
-                    <th scope = "col">Balls faced</th>
-                </tr>
-            </thead>
-            <tbody>    
-                <tr
-                *ngFor="let batsman of batsmenInnings2; let i = index"
-                (click)="redirectPlayer(batsman.player_id)"
-                onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
-                onmouseout="this.style.background='white';"
-                >
-                <!-- [class.active]="i == currentIndex"
-                (click)="setActiveMatch(i)"
-                (dblclick)="redirectMatch(match.match_id)" -->
-                    <th scope = "row">{{ batsman.player_name }}</th>
-                    <td>{{ batsman.runs }}</td>
-                    <td>{{ batsman.fours }}</td>
-                    <td>{{ batsman.sixes }}</td>
-                    <td>{{ batsman.balls }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="table border">
-          <thead>
-            <tr>
-              <th>Extras</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>    
-              <tr>
-                  <td>{{ totalInnings2.extra_runs }}</td>
-                  <td>{{ totalInnings2.tot_runs }}</td>
-              </tr>
-          </tbody>
-      </table>
-      <table class="table border">
-        <thead>
-          <tr>
-              <th scope = "col">Bowler</th>
-              <th scope = "col">Balls bowled</th>
-              <th scope = "col">Runs given</th>
-              <th scope = "col">Wickets taken</th>
-          </tr>
-        </thead>
-        <tbody>    
-            <tr
-            *ngFor="let bowler of bowlersInnings2; let i = index"
-            (click)="redirectPlayer(bowler.player_id)"
-            onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
-            onmouseout="this.style.background='white';"
-            
-            >
-                <th scope = "row">{{ bowler.player_name }}</th>
-                <td>{{ bowler.balls }}</td>
-                <td>{{ bowler.runs }}</td>
-                <td>{{ bowler.wickets }}</td>
-            </tr>
-        </tbody>
-      </table>
+      <canvas id="ballByBall"></canvas>
     </div>
   </div>
 </div>
