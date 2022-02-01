@@ -190,7 +190,14 @@
 
     <div class = "jumbotron">
       <h2>Match Summary</h2>
-
+      <div class="d-flex flex-row">
+        <div>{{ matchInfo.match_info.match_id }} IPL {{ matchInfo.match_info.season_year }}</div>
+      </div>
+      <div class="d-flex flex-row">
+        <div class = "flex-grow-1">{{ matchInfo.match_info.team1 }}</div>
+        <div>{{ ballsInnings1.length/6 }}</div>
+        <div>{{ totalInnings1 }}/{{  }}</div>
+      </div>
     </div>
   </div>
 </div>
