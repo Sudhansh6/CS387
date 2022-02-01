@@ -231,12 +231,12 @@ exports.findMatchSummary = (req, res) => {
   join umpire on umpire.umpire_id= umpire_match.umpire_id) as out2
   where out2.match_id = ${id};
 
-  select player_id, player.player_name as player_name from player_match
+  select player.player_id, player.player_name as player_name from player_match
   join player on player.player_id=player_match.player_id
   join match on match.match_id=player_match.match_id and 
   team_id=match.team1 and match.match_id=${id};
 
-  select player_id, player.player_name as player_name from player_match
+  select player.player_id, player.player_name as player_name from player_match
   join player on player.player_id=player_match.player_id
   join match on match.match_id=player_match.match_id and 
   team_id=match.team2 and match.match_id=${id};
