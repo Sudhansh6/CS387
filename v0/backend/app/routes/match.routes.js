@@ -13,6 +13,8 @@ module.exports = app => {
     router.get("/match/ballsInnings1/:id", matches.findBallsInnings1);
     router.get("/match/ballsInnings2/:id", matches.findBallsInnings2);
     router.get("/match/matchInfo/:id", matches.findMatchSummary);
+    router.get("/match/bestPlayers/:id", matches.findBestPlayers);
+
 
 
         app.use('/api', router);

@@ -261,3 +261,74 @@ exports.findMatchSummary = (req, res) => {
     res.send(`There was an error while fetching data from the database - ${err}`);
   });
 };
+
+exports.findBestPlayers = (req, res) => {
+  const id = req.params.id
+  sequelize.query(`
+  select player_id, player_name as batsman1, runs, balls from
+  (
+    select player_id, player_name, sum(runs_scored) as runs, count(runs_scored) as balls, rank() over (
+    order by sum(runs_scored) desc,count(runs_scored) asc, player_name asc) as rank_batter
+    from (select * from ball_by_ball where match_id = ${id}) as b
+    join player on player.player_id = striker
+    where innings_no = 1
+    group by player_name, player_id
+  )
+  as out1
+  where out1.rank_batter <= 3 and runs > 0;
+  
+  select player_id, player_name as batsman2, runs, balls from
+  (
+    select player_id, player_name, sum(runs_scored) as runs, count(runs_scored) as balls, rank() over (
+    order by sum(runs_scored) desc,count(runs_scored) asc, player_name asc) as rank_batter
+    from (select * from ball_by_ball where match_id = ${id}) as b
+    join player on player.player_id = striker
+    where innings_no = 2
+    group by player_name, player_id
+  )
+  as out1
+  where out1.rank_batter <= 3 and runs > 0;
+  
+  select player_id, player_name as bowler1, wickets, runs from
+  (
+    select player_id, player_name,
+    sum(case when out_type != 'NULL' then 1 else 0 end)as wickets,
+    sum(runs_scored) as runs,
+    rank() over (
+    order by sum(case when out_type != 'NULL' then 1 else 0 end) desc, sum(runs_scored) asc, player_name asc
+    ) rank_batter
+    from (select * from ball_by_ball where match_id = ${id}) as b
+    join player on player.player_id=bowler
+    where innings_no=1
+    group by player_name, player_id
+  )
+  as out1
+  where out1.rank_batter<=3 and wickets > 0 ;
+
+  select player_id, player_name as bowler2, wickets, runs from
+  (
+    select player_name, player_id,
+    sum(case when out_type != 'NULL' then 1 else 0 end)as wickets,
+    sum(runs_scored) as runs,
+    rank() over (
+    order by sum(case when out_type != 'NULL' then 1 else 0 end) desc, sum(runs_scored) asc, player_name asc
+    ) rank_batter
+    from (select * from ball_by_ball where match_id = ${id}) as b
+    join player on player.player_id=bowler
+    where innings_no = 2
+    group by player_name, player_id
+  )
+  as out1
+  where out1.rank_batter<=3 and wickets > 0 ;
+  `, {
+    raw: true,
+    multipleStatements: true,
+    type: db.Sequelize.QueryTypes.SELECT
+  }).then((data) => {
+    res.send(data);
+  }).catch((err) => {
+    res.send(`There was an error while fetching data from the database - ${err}`);
+  });
+
+
+};

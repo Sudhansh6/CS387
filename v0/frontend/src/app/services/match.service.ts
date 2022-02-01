@@ -46,4 +46,8 @@ export class MatchService {
   getMatchInfo(id: any): Observable<any> {
     return this.http.get(`${baseUrl}/matchInfo/${id}`);
   }
+  
+  getBestPlayers(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/bestPlayers/${id}`);
+  }
 }

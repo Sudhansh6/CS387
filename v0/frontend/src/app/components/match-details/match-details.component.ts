@@ -31,6 +31,11 @@ export class MatchDetailsComponent implements OnInit {
   battingTeamInnings1: any;
   battingTeamInnings2: any;
 
+  bestInnings1batsmen = new Array();
+  bestInnings1bowlers = new Array();
+  bestInnings2batsmen = new Array();
+  bestInnings2bowlers = new Array();
+
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -72,6 +77,7 @@ export class MatchDetailsComponent implements OnInit {
           this.battingTeamInnings2 = this.matchInfo.match_info.team1;
     }
     this.plotBallbyBall(id);
+    this.bestPlayers(id);
   }
 
   async plotBallbyBall(id: string)
@@ -132,6 +138,22 @@ export class MatchDetailsComponent implements OnInit {
         value = wickets2[index];
         return value ? 5 : 0.5;
       }
+  }
+
+  async bestPlayers(id: string)
+  {
+    var res = await lastValueFrom(this.matchService.getBestPlayers(id));
+    res.forEach((element: any) => {
+      if (element.batsman1 != null)
+        this.bestInnings1batsmen.push(element);
+      else if (element.batsman2 != null)
+        this.bestInnings2batsmen.push(element);
+      else if (element.bowler1 != null)
+        this.bestInnings1bowlers.push(element); 
+      else if (element.bowler2 != null)
+        this.bestInnings2bowlers.push(element);
+    });
+    console.log(this.bestInnings1batsmen);
   }
 
   redirectPlayer(id: string): void {

@@ -185,12 +185,88 @@
 
     <div class = "jumbotron col-md-12">
       <h2>Score Comparison</h2><br>
-      <canvas id="BallByBallChart" width="500">{{ ballByBallChart }}</canvas>
+      <canvas id="ballByBall" width="500"></canvas>
     </div>
 
     <div class = "jumbotron">
-      <h2>Match Summary</h2>
-
+      <h2>Match Summary {{ totalInnings1.tot_runs }}</h2>
+      <br>
+      
+      <div class="d-flex flex-row">
+        <h5>{{ matchInfo.match_info.match_id }} IPL {{ matchInfo.match_info.season_year }}</h5>
+      </div>
+      <hr>
+      <div class="d-flex flex-row border" *ngFor="let innings of totalInnings1; let i = index">
+        <div class = "flex-grow-1"><b>{{ battingTeamInnings1 }}</b></div>
+        <div class = "flex-fill">{{ (ballsInnings1.length - innings.extra_balls)/6 }}</div>
+        <div class = "flex-fill">{{ innings.tot_runs }} / {{ innings.tot_wickets }}</div>
+      </div>
+      <div class="d-flex flex-row border">
+        <table class = "flex-fill border">
+          <tbody>
+            <tr 
+          *ngFor="let p of bestInnings1batsmen; let i = index"
+          (click)="redirectPlayer(p.player_id)"
+          onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+          onmouseout="this.style.background='white';"
+          >
+              <td class = "flex-grow-1">{{ p.batsman1 }}</td>
+              <td class = "flex-fill float-right"><b>{{ p.runs }}</b> </td> 
+              <td class = "flex-fill"> {{ p.balls }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class = "flex-fill border">
+          <tbody>
+            <tr 
+          *ngFor="let p of bestInnings1bowlers; let i = index"
+          (click)="redirectPlayer(p.player_id)"
+          onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+          onmouseout="this.style.background='white';"
+          >
+              <td class = "flex-grow-1">{{ p.bowler1 }}</td>
+              <td class = "flex-fill float-right"><b>{{ p.wickets }}</b>-</td> 
+              <td class = "flex-fill"> {{ p.runs }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="d-flex flex-row border" 
+          *ngFor="let innings of totalInnings2; let i = index">
+        <div class = "flex-grow-1"><b>{{ battingTeamInnings2 }}</b></div>
+        <div class = "flex-fill">{{ (ballsInnings2.length - innings.extra_balls)/6 }}</div>
+        <div class = "flex-fill">{{ innings.tot_runs }} / {{ innings.tot_wickets }}</div>
+      </div>
+      <div class="d-flex flex-row border">
+        <table class = "flex-fill border">
+          <tbody>
+            <tr *ngFor="let p of bestInnings2batsmen; let i = index"
+            (click)="redirectPlayer(p.player_id)"
+            onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+            onmouseout="this.style.background='white';"
+            >
+              <td class = "flex-grow-1">{{ p.batsman2 }}</td>
+              <td class = "flex-fill float-right"><b>{{ p.runs }}</b> </td> 
+              <td class = "flex-fill"> {{ p.balls }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table class = "flex-fill border">
+          <tbody>
+            <tr 
+            *ngFor="let p of bestInnings2bowlers; let i = index"
+              (click)="redirectPlayer(p.player_id)"
+            onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
+            onmouseout="this.style.background='white';"
+            >
+              <td class = "flex-grow-1">{{ p.bowler2 }}</td>
+              <td class = "flex-fill float-right"><b>{{ p.wickets }}</b>-</td> 
+              <td class = "flex-fill"> {{ p.runs }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
