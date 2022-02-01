@@ -12,6 +12,8 @@ module.exports = app => {
     router.get("/match/bowlersInnings2/:id", matches.findBowlersInnings2);
     router.get("/match/ballsInnings1/:id", matches.findBallsInnings1);
     router.get("/match/ballsInnings2/:id", matches.findBallsInnings2);
+    router.get("/match/matchInfo/:id", matches.findMatchSummary);
+
 
         app.use('/api', router);
   };

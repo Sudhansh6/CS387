@@ -25,6 +25,8 @@ export class MatchDetailsComponent implements OnInit {
   ballsInnings2: any;
   message = '';
 
+  matchInfo: any;
+
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -46,6 +48,9 @@ export class MatchDetailsComponent implements OnInit {
     this.batsmenInnings2 = await lastValueFrom(this.matchService.getBatsmenInnings2(id));
     this.totalInnings2 = await lastValueFrom(this.matchService.getTotalInnings2(id));
     this.bowlersInnings2 = await lastValueFrom(this.matchService.getBowlersInnings2(id));
+  
+    this.matchInfo = await lastValueFrom(this.matchService.getMatchInfo(id));
+    console.log(this.matchInfo);
   }
 
   async plotBallbyBall(id: string)

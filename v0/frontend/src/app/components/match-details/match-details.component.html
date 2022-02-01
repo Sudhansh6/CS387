@@ -1,11 +1,9 @@
 <div class="container">
-  <div class = "container border">
-    <hr>
-    <h3>Scorecard</h3>
-    <hr>
-    <div class = "container border">
+  <div class = "page-header">
+    <h2>Scorecard</h2>
+    <div class = "jumbotron">
       <h4>Innings 1</h4>
-      <table class="table border">
+      <table class="table">
           <thead>
               <tr>
                   <th scope = "col">Batsman</th>
@@ -33,7 +31,7 @@
               </tr>
           </tbody>
       </table>
-      <table class="table border">
+      <table class="table">
         <thead>
           <tr>
             <th>Extras</th>
@@ -47,7 +45,7 @@
             </tr>
         </tbody>
     </table>
-    <table class="table border">
+    <table class="table">
       <thead>
         <tr>
             <th scope = "col">Bowler</th>
@@ -72,9 +70,9 @@
     </table>
     
   </div>
-  <div class = "container border">
+  <div class = "jumbotron">
     <h4>Innings 2</h4>
-    <table class="table border">
+    <table class="table">
         <thead>
             <tr>
                 <th scope = "col">Batsman</th>
@@ -102,7 +100,7 @@
             </tr>
         </tbody>
     </table>
-    <table class="table border">
+    <table class="table">
       <thead>
         <tr>
           <th>Extras</th>
@@ -116,7 +114,7 @@
           </tr>
       </tbody>
     </table>
-    <table class="table border">
+    <table class="table">
       <thead>
         <tr>
             <th scope = "col">Bowler</th>
@@ -139,10 +137,60 @@
           </tr>
       </tbody>
     </table>
-  
     </div>
-    <div class = "container border">
-      <canvas id="ballByBall"></canvas>
+    
+    <div class = "jumbotron">
+      <h2>Match {{ matchInfo.match_info.match_id }} info</h2>
+      <hr>
+      <div class = "container">
+          <b>{{ matchInfo.match_info.team1 }}</b> vs <b>{{ matchInfo.match_info.team2 }}</b> 
+          in <b>{{ matchInfo.match_info.season_year }}</b> 
+          at <b>{{ matchInfo.match_info.stadium_name }}, {{ matchInfo.match_info.city_name }}</b><br>
+          {{ matchInfo.match_info.toss_winner }} won the toss and chose to <b>{{ matchInfo.match_info.toss_name }}</b>
+      </div>
+      <hr>
+      <div class= "justify-content-center flex">
+        <table class = "table">
+          <thead>
+            <tr>
+              <th>Players in {{ matchInfo.match_info.team1 }}</th>
+              <th>Players in {{ matchInfo.match_info.team2 }} </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+              <td (click)="redirectPlayer(matchInfo.players1[i].player_id)"
+              >{{ matchInfo.players1[i].player_name }}</td>
+              <td (click)="redirectPlayer(matchInfo.players2[i].player_id)"
+              >{{ matchInfo.players2[i].player_name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class= "justify-content-center flex">
+        <table class = "table">
+          <thead>
+            <tr>
+              <th>Umpires in the match</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of [0, 1, 2]">
+              <td>{{ matchInfo.umpires[i].umpire_name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class = "jumbotron col-md-12">
+      <h2>Score Comparison</h2><br>
+      <canvas id="ballByBall" width="500"></canvas>
+    </div>
+
+    <div class = "jumbotron">
+      <h2>Match Summary</h2>
+
     </div>
   </div>
 </div>

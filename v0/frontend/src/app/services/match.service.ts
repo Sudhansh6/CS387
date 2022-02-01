@@ -42,4 +42,8 @@ export class MatchService {
   getBallsInnings2(id: any): Observable<any> {
     return this.http.get(`${baseUrl}/ballsInnings2/${id}`);
   }
+
+  getMatchInfo(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/matchInfo/${id}`);
+  }
 }

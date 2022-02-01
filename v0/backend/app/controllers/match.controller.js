@@ -156,8 +156,6 @@ exports.findBowlersInnings2 = (req, res) => {
   }).catch((err) => {
     res.send(`There was an error while fetching data from the database - ${err}`);
   });
-
-
 };
 
 // Find ball by ball info of a match
@@ -207,4 +205,53 @@ exports.findBallsInnings2 = (req, res) => {
   });
 
 
+};
+
+exports.findMatchSummary = (req, res) => {
+  const id = req.params.id
+  var match_info;
+  var players1;
+  var players2;
+  var umpires;
+
+  sequelize.query(`
+  select match_id, 
+  t1.team_name as team1, 
+  t2.team_name as team2, season_year,
+  t3.team_name as toss_winner, toss_name,
+  venue.venue_name as stadium_name,
+  venue.city_name as city_name from (select * from match where match_id = ${id}) as m
+  join team as t1 on t1.team_id = team1
+  join team as t2 on t2.team_id = team2
+  join team as t3 on t3.team_id = toss_winner
+  join venue on venue.venue_id = m.venue_id;
+  
+  select umpire_name from
+  (select match_id,umpire.umpire_name from umpire_match
+  join umpire on umpire.umpire_id= umpire_match.umpire_id) as out2
+  where out2.match_id = ${id};
+
+  select player_id, player.player_name as player_name from player_match
+  join player on player.player_id=player_match.player_id
+  join match on match.match_id=player_match.match_id and 
+  team_id=match.team1 and match.match_id=${id};
+
+  select player_id, player.player_name as player_name from player_match
+  join player on player.player_id=player_match.player_id
+  join match on match.match_id=player_match.match_id and 
+  team_id=match.team2 and match.match_id=${id};
+  
+  `, {
+    raw: true,
+    multipleStatements: true,
+    type: db.Sequelize.QueryTypes.SELECT
+  }).then((data) => {
+    var result = {match_info: data[0], umpires: [data[1], data[2], data[3]],
+      players1: [data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14]],
+      players2: [data[15], data[16], data[17], data[18], data[19], data[20], data[21], data[22], data[23], data[24], data[25]]
+    };
+    res.send(result);
+  }).catch((err) => {
+    res.send(`There was an error while fetching data from the database - ${err}`);
+  });
 };
