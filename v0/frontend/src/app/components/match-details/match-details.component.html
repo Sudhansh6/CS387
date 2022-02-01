@@ -198,7 +198,7 @@
       <hr>
       <div class="d-flex flex-row border" *ngFor="let innings of totalInnings1; let i = index">
         <div class = "flex-grow-1"><b>{{ battingTeamInnings1 }}</b></div>
-        <div class = "flex-fill">{{ (ballsInnings1.length - innings.extra_balls)/6 }}</div>
+        <div class = "flex-fill">{{ ((ballsInnings1.length - innings.extra_balls)/6).toFixed(1) }}</div>
         <div class = "flex-fill">{{ innings.tot_runs }} / {{ innings.tot_wickets }}</div>
       </div>
       <div class="d-flex flex-row border">
@@ -235,7 +235,7 @@
       <div class="d-flex flex-row border" 
           *ngFor="let innings of totalInnings2; let i = index">
         <div class = "flex-grow-1"><b>{{ battingTeamInnings2 }}</b></div>
-        <div class = "flex-fill">{{ (ballsInnings2.length - innings.extra_balls)/6 }}</div>
+        <div class = "flex-fill">{{ ((ballsInnings2.length - innings.extra_balls)/6).toFixed(1) }}</div>
         <div class = "flex-fill">{{ innings.tot_runs }} / {{ innings.tot_wickets }}</div>
       </div>
       <div class="d-flex flex-row border">
