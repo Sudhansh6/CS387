@@ -44,6 +44,7 @@ export class MatchDetailsComponent implements OnInit {
     if (this.viewMode) {
       this.message = 'Loading...';
       this.getMatch(this.route.snapshot.params["id"]);
+      
     }
   }
 
@@ -103,8 +104,8 @@ export class MatchDetailsComponent implements OnInit {
       balls2[i] = Number(element.runs);
       wickets2[i] = Boolean(element.wickets);
     });
-    this.flag = true;
 
+    
     this.ballByBallChart = new Chart("BallByBallChart",
     {
       type: "line",
@@ -114,11 +115,13 @@ export class MatchDetailsComponent implements OnInit {
           {fill: false,
             borderColor: 'rgba(29, 236, 197, 0.5)',
             pointStyle: 'circle',
-            label: "Innings 1", data : balls1}, 
+            pointRadius: pointRadius1,
+            label: this.battingTeamInnings1, data : balls1}, 
           {fill: false,
             borderColor: 'rgba(91, 14, 214, 0.5)',
             pointStyle: 'circle',
-            label: "Innings 2", data : balls2},
+            pointRadius: pointRadius2,
+            label: this.battingTeamInnings2, data : balls2},
           ]
         },
         options: {}
@@ -129,14 +132,14 @@ export class MatchDetailsComponent implements OnInit {
         let index = context.dataIndex;
         let value = false;
         value = wickets1[index];
-        return value ? 5 : 0.5;
+        return value ? 10 : 1;
       }
       function pointRadius2(context: any)
       {
         let index = context.dataIndex;
         let value = false;
         value = wickets2[index];
-        return value ? 5 : 0.5;
+        return value ? 10 : 1;
       }
   }
 
@@ -153,7 +156,8 @@ export class MatchDetailsComponent implements OnInit {
       else if (element.bowler2 != null)
         this.bestInnings2bowlers.push(element);
     });
-    console.log(this.bestInnings1batsmen);
+    // console.log(this.bestInnings1batsmen);
+    this.flag = true;
   }
 
   redirectPlayer(id: string): void {

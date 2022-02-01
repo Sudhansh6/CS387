@@ -1,4 +1,4 @@
-<div class="container" *ngIf="flag">
+<div class="container" *ngIf ='flag' >
   <div class = "page-header">
     <h2>Scorecard</h2>
     <div class = "jumbotron">
@@ -182,11 +182,11 @@
         </table>
       </div>
     </div>
-
-    <div class = "jumbotron col-md-12">
+    <div class = "jumbotron">
       <h2>Score Comparison</h2><br>
-      <canvas id="ballByBall" width="500"></canvas>
+      <canvas id="BallByBallChart" width="500"></canvas>
     </div>
+  
 
     <div class = "jumbotron">
       <h2>Match Summary {{ totalInnings1.tot_runs }}</h2>
@@ -269,4 +269,5 @@
       </div>
     </div>
   </div>
+
 </div>
