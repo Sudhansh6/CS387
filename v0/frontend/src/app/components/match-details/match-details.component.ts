@@ -24,7 +24,7 @@ export class MatchDetailsComponent implements OnInit {
   ballsInnings1: any;
   ballsInnings2: any;
   message = '';
-
+  flag=false;
   matchInfo: any;
 
   constructor(private matchService: MatchService,
@@ -36,6 +36,7 @@ export class MatchDetailsComponent implements OnInit {
       this.message = 'Loading...';
       this.getMatch(this.route.snapshot.params["id"]);
       this.plotBallbyBall(this.route.snapshot.params["id"]);
+      this.flag=true;
     }
   }
 
