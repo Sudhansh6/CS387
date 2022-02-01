@@ -55,7 +55,10 @@ exports.findBatsmenInnings1 = (req, res) => {
 exports.findTotalInnings1 = (req, res) => {
   const id = req.params.id
   sequelize.query(`
-  select sum(extra_runs) as extra_runs, sum(runs_scored+extra_runs) as tot_runs,sum(case when out_type != 'NULL' then 1 else 0 end) as tot_wickets
+  select sum(extra_runs) as extra_runs, 
+  sum(runs_scored+extra_runs) as tot_runs,
+  sum(case when extra_runs != 0 then 1 else 0 end) as extra_balls,
+  sum(case when out_type != 'NULL' then 1 else 0 end) as tot_wickets
   from ball_by_ball 
   where innings_no=1 and match_id=${id}
   `, {
@@ -121,6 +124,7 @@ exports.findTotalInnings2 = (req, res) => {
   sequelize.query(`
   select sum(extra_runs) as extra_runs, 
   sum(runs_scored+extra_runs) as tot_runs,
+  sum(case when extra_runs != 0 then 1 else 0 end) as extra_balls,
   sum(case when out_type != 'NULL' then 1 else 0 end) as tot_wickets
   from ball_by_ball 
   where innings_no = 2 and match_id=${id}
@@ -219,11 +223,13 @@ exports.findMatchSummary = (req, res) => {
   t1.team_name as team1, 
   t2.team_name as team2, season_year,
   t3.team_name as toss_winner, toss_name,
+  t4.team_name as match_winner,
   venue.venue_name as stadium_name,
   venue.city_name as city_name from (select * from match where match_id = ${id}) as m
   join team as t1 on t1.team_id = team1
   join team as t2 on t2.team_id = team2
   join team as t3 on t3.team_id = toss_winner
+  join team as t4 on t4.team_id = match_winner
   join venue on venue.venue_id = m.venue_id;
   
   select umpire_name from

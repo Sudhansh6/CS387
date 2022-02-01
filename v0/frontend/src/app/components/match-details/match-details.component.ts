@@ -24,8 +24,12 @@ export class MatchDetailsComponent implements OnInit {
   ballsInnings1: any;
   ballsInnings2: any;
   message = '';
-  flag=false;
   matchInfo: any;
+  ballByBallChart: any;
+  flag = false;
+
+  battingTeamInnings1: any;
+  battingTeamInnings2: any;
 
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
@@ -35,8 +39,6 @@ export class MatchDetailsComponent implements OnInit {
     if (this.viewMode) {
       this.message = 'Loading...';
       this.getMatch(this.route.snapshot.params["id"]);
-      this.plotBallbyBall(this.route.snapshot.params["id"]);
-      this.flag=true;
     }
   }
 
@@ -51,7 +53,27 @@ export class MatchDetailsComponent implements OnInit {
     this.bowlersInnings2 = await lastValueFrom(this.matchService.getBowlersInnings2(id));
   
     this.matchInfo = await lastValueFrom(this.matchService.getMatchInfo(id));
-    console.log(this.matchInfo);
+
+ 
+    if (this.matchInfo.match_info.win_type == "wickets")
+    {
+      console.log("in IF");
+        this.battingTeamInnings2 = this.matchInfo.match_info.match_winner;
+        if (this.matchInfo.match_info.match_winner == this.matchInfo.match_info.team1 )
+          this.battingTeamInnings1 = this.matchInfo.match_info.team2;
+        else
+          this.battingTeamInnings1 = this.matchInfo.match_info.team1;
+    }
+    else
+    {
+      console.log("In else")
+        this.battingTeamInnings1 = this.matchInfo.match_info.match_winner;
+        if (this.matchInfo.match_info.match_winner == this.matchInfo.match_info.team1 )
+          this.battingTeamInnings2 = this.matchInfo.match_info.team2;
+        else
+          this.battingTeamInnings2 = this.matchInfo.match_info.team1;
+    }
+    this.plotBallbyBall(id);
   }
 
   async plotBallbyBall(id: string)
@@ -77,40 +99,44 @@ export class MatchDetailsComponent implements OnInit {
       balls2[i] = Number(element.runs);
       wickets2[i] = Boolean(element.wickets);
     });
-    
-    console.log(balls1, balls2)
-    var ballByBall = new Chart("ballByBall", {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets:[
-            {fill: false,
-              borderColor: 'rgba(29, 236, 197, 0.5)',
-              pointStyle: 'circle',
-              label: "Innings 1", data : balls1}, 
-            {fill: false,
-              borderColor: 'rgba(91, 14, 214, 0.5)',
-              pointStyle: 'circle',
-              label: "Innings 2", data : balls2},
-          ]
-        },
-        options: {
-          elements: {
-            point: {
-              radius : customRadius
-            }
-          }
-        }
-      });
-      function customRadius(context: any)
+    this.flag = true;
+
+    console.log(labels);
+    this.ballByBallChart = new Chart("ballByBall", {type: "line", data: {labels: [1, 2], datasets: [{data:[1, 2]}]}})
+    // var ballByBall = new Chart("ballByBall", {
+    //     type: "line",
+    //     data: {
+    //       labels: labels,
+    //       datasets:[
+    //         {fill: false,
+    //           borderColor: 'rgba(29, 236, 197, 0.5)',
+    //           pointStyle: 'circle',
+    //           // pointRadius: pointRadius1,
+    //           label: this.battingTeamInnings1, 
+    //           data : labels //balls1
+    //         } 
+    //         // {fill: false,
+    //         //   borderColor: 'rgba(91, 14, 214, 0.5)',
+    //         //   pointStyle: 'circle',
+    //         //   // pointRadius: pointRadius1,
+    //         //   label: "this.battingTeamInnings2", data : balls2},
+    //       ]
+    //     },
+    //     options: {}
+    //   });
+
+      function pointRadius1(context: any)
       {
-        // console.log(context.dataset.label);
         let index = context.dataIndex;
         let value = false;
-        if (context.dataset.label == "Innings 1")
-          value = wickets1[index];
-        else
-          value = wickets2[index];
+        value = wickets1[index];
+        return value ? 5 : 0.5;
+      }
+      function pointRadius2(context: any)
+      {
+        let index = context.dataIndex;
+        let value = false;
+        value = wickets2[index];
         return value ? 5 : 0.5;
       }
   }

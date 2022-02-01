@@ -185,7 +185,7 @@
 
     <div class = "jumbotron col-md-12">
       <h2>Score Comparison</h2><br>
-      <canvas id="ballByBall" width="500"></canvas>
+      <canvas id="ballByBall" width="500">{{ballByBallChart}}</canvas>
     </div>
 
     <div class = "jumbotron">
@@ -194,9 +194,9 @@
         <div>{{ matchInfo.match_info.match_id }} IPL {{ matchInfo.match_info.season_year }}</div>
       </div>
       <div class="d-flex flex-row">
-        <div class = "flex-grow-1">{{ matchInfo.match_info.team1 }}</div>
-        <div>{{ ballsInnings1.length/6 }}</div>
-        <div>{{ totalInnings1 }}/{{  }}</div>
+        <div class = "flex-grow-1">{{ battingTeamInnings1 }}</div>
+        <div>{{ (ballsInnings1.length - totalInnings1.extra_balls)/6 }}</div>
+        <div>{{ totalInnings1.total_runs }}/{{ totalInnings1.wickets }}</div>
       </div>
     </div>
   </div>
