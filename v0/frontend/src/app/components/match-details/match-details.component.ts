@@ -57,7 +57,6 @@ export class MatchDetailsComponent implements OnInit {
  
     if (this.matchInfo.match_info.win_type == "wickets")
     {
-      console.log("in IF");
         this.battingTeamInnings2 = this.matchInfo.match_info.match_winner;
         if (this.matchInfo.match_info.match_winner == this.matchInfo.match_info.team1 )
           this.battingTeamInnings1 = this.matchInfo.match_info.team2;
@@ -66,7 +65,6 @@ export class MatchDetailsComponent implements OnInit {
     }
     else
     {
-      console.log("In else")
         this.battingTeamInnings1 = this.matchInfo.match_info.match_winner;
         if (this.matchInfo.match_info.match_winner == this.matchInfo.match_info.team1 )
           this.battingTeamInnings2 = this.matchInfo.match_info.team2;
@@ -101,29 +99,24 @@ export class MatchDetailsComponent implements OnInit {
     });
     this.flag = true;
 
-    console.log(labels);
-    this.ballByBallChart = new Chart("ballByBall", {type: "line", data: {labels: [1, 2], datasets: [{data:[1, 2]}]}})
-    // var ballByBall = new Chart("ballByBall", {
-    //     type: "line",
-    //     data: {
-    //       labels: labels,
-    //       datasets:[
-    //         {fill: false,
-    //           borderColor: 'rgba(29, 236, 197, 0.5)',
-    //           pointStyle: 'circle',
-    //           // pointRadius: pointRadius1,
-    //           label: this.battingTeamInnings1, 
-    //           data : labels //balls1
-    //         } 
-    //         // {fill: false,
-    //         //   borderColor: 'rgba(91, 14, 214, 0.5)',
-    //         //   pointStyle: 'circle',
-    //         //   // pointRadius: pointRadius1,
-    //         //   label: "this.battingTeamInnings2", data : balls2},
-    //       ]
-    //     },
-    //     options: {}
-    //   });
+    this.ballByBallChart = new Chart("BallByBallChart",
+    {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets:[
+          {fill: false,
+            borderColor: 'rgba(29, 236, 197, 0.5)',
+            pointStyle: 'circle',
+            label: "Innings 1", data : balls1}, 
+          {fill: false,
+            borderColor: 'rgba(91, 14, 214, 0.5)',
+            pointStyle: 'circle',
+            label: "Innings 2", data : balls2},
+          ]
+        },
+        options: {}
+      });
 
       function pointRadius1(context: any)
       {
