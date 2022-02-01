@@ -29,7 +29,6 @@ export class MatchListComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.matches = data;
-          console.log(data);
         },
         error: (e) => console.error(e)
       });
@@ -46,13 +45,11 @@ export class MatchListComponent implements OnInit {
   }
 
   redirectMatch(index: number): void {
-    console.log(`here ${index}`);
     this.router.navigate([`/matches/${index}`]);
   }
 
   handlePageChange(event: number): void {
     this.page = event;
-    console.log(event, this.page, this.count);
     this.refreshList();
   }
   // searchTitle(): void {

@@ -19,24 +19,20 @@ export class MatchService {
   getBatsmenInnings1(id: any): Observable<any> {
     return this.http.get(`${baseUrl}/batsmenInnings1/${id}`);
   }
-
-  // create(data: any): Observable<any> {
-  //   return this.http.post(baseUrl, data);
-  // }
-
-  // update(id: any, data: any): Observable<any> {
-  //   return this.http.put(`${baseUrl}/${id}`, data);
-  // }
-
-  // delete(id: any): Observable<any> {
-  //   return this.http.delete(`${baseUrl}/${id}`);
-  // }
-
-  // deleteAll(): Observable<any> {
-  //   return this.http.delete(baseUrl);
-  // }
-
-  // findByTitle(title: any): Observable<Tutorial[]> {
-  //   return this.http.get<Tutorial[]>(`${baseUrl}?title=${title}`);
-  // }
+  getTotalInnings1(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/totalInnings1/${id}`);
+  }
+  getBowlersInnings1(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/bowlersInnings1/${id}`);
+  }
+  
+  getBatsmenInnings2(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/batsmenInnings2/${id}`);
+  }
+  getTotalInnings2(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/totalInnings2/${id}`);
+  }
+  getBowlersInnings2(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/bowlersInnings2/${id}`);
+  }
 }

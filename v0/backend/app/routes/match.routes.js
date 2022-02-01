@@ -2,27 +2,13 @@ module.exports = app => {
     const matches = require("../controllers/match.controller.js");
   
     var router = require("express").Router();
-  
-    // // Create a new Tutorial
-    // router.post("/", tutorials.create);
-  
-    // Retrieve all Tutorials
+    // Section B
     router.get("/match", matches.findAll);
-  
-    // // Retrieve all published Tutorials
-    // router.get("/published", tutorials.findAllPublished);
-  
-    // Retrieve a single Tutorial with id
     router.get("/match/batsmenInnings1/:id", matches.findBatsmenInnings1);
-  
-    // // Update a Tutorial with id
-    // router.put("/:id", tutorials.update);
-  
-    // // Delete a Tutorial with id
-    // router.delete("/:id", tutorials.delete);
-  
-    // // Create a new Tutorial
-    // router.delete("/", tutorials.deleteAll);
-  
-    app.use('/api', router);
+    router.get("/match/totalInnings1/:id", matches.findTotalInnings1);
+    router.get("/match/bowlersInnings1/:id", matches.findBowlersInnings1);
+    router.get("/match/batsmenInnings2/:id", matches.findBatsmenInnings2);
+    router.get("/match/totalInnings2/:id", matches.findTotalInnings2);
+    router.get("/match/bowlersInnings2/:id", matches.findBowlersInnings2);
+        app.use('/api', router);
   };
