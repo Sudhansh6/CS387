@@ -19,7 +19,7 @@ export class PlayerDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
 
-    ngOnInit(): void {
+    async ngOnInit() {
       if (this.viewMode) {
         this.message = 'Loading...';
         this.getplayerinfo(this.route.snapshot.params["id"]);

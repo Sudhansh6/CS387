@@ -9,13 +9,15 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatchDetailsComponent } from './components/match-details/match-details.component';
 import { PlayerDetailsComponent } from './components/player-details/player-details.component';
+import { PointsTableComponent } from './components/points-table/points-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MatchListComponent,
     MatchDetailsComponent,
-    PlayerDetailsComponent
+    PlayerDetailsComponent,
+    PointsTableComponent
   ],
   imports: [
     BrowserModule,

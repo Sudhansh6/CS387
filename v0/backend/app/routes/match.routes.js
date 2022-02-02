@@ -14,6 +14,9 @@ module.exports = app => {
     router.get("/match/ballsInnings2/:id", matches.findBallsInnings2);
     router.get("/match/matchInfo/:id", matches.findMatchSummary);
     router.get("/match/bestPlayers/:id", matches.findBestPlayers);
+    router.get("/match/distribution1/:id", matches.findDistribution1);
+    router.get("/match/distribution2/:id", matches.findDistribution2);
+
 
 
 

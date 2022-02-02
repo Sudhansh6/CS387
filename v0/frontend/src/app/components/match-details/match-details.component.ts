@@ -36,15 +36,17 @@ export class MatchDetailsComponent implements OnInit {
   bestInnings2batsmen = new Array();
   bestInnings2bowlers = new Array();
 
+  innings1Plot = true;
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     if (this.viewMode) {
+      this.flag = false;
+      this.innings1Plot = true;
       this.message = 'Loading...';
       this.getMatch(this.route.snapshot.params["id"]);
-      
     }
   }
 
@@ -79,6 +81,7 @@ export class MatchDetailsComponent implements OnInit {
     }
     this.plotBallbyBall(id);
     this.bestPlayers(id);
+    this.distributionPlot(id);
   }
 
   async plotBallbyBall(id: string)
@@ -105,7 +108,6 @@ export class MatchDetailsComponent implements OnInit {
       wickets2[i] = Boolean(element.wickets);
     });
 
-    
     this.ballByBallChart = new Chart("BallByBallChart",
     {
       type: "line",
@@ -157,11 +159,71 @@ export class MatchDetailsComponent implements OnInit {
         this.bestInnings2bowlers.push(element);
     });
     // console.log(this.bestInnings1batsmen);
-    this.flag = true;
   }
 
+  
   redirectPlayer(id: string): void {
     this.router.navigate([`/players/${id}`]);
   }
 
+  async distributionPlot(id: string)
+  {
+    var res1 = await lastValueFrom(this.matchService.getDistribution1(id));
+    var res2 = await lastValueFrom(this.matchService.getDistribution2(id));
+    console.log(res1);
+    
+    var labels1 = new Array(), labels2 = new Array();
+    var data1 = new Array(), data2 = new Array();
+    var colors1 = [], colors2 = [];
+    
+    for (var i in res1[0])
+    {
+      labels1.push(i);
+      data1.push(res1[0][i]);
+      colors1.push('#' + Math.floor(res1[0][i]*167772.15).toString(16));
+    }
+
+    for (var i in res2[0])
+    {
+      labels2.push(i);
+      data2.push(res2[0][i]);
+      colors2.push('#' + Math.floor(res2[0][i]*167772.15).toString(16));
+    }
+
+    new Chart("Innings1Chart",
+    {
+      type: "doughnut",
+      data: {
+        labels: labels1,
+        datasets:[
+            { 
+              data : data1,
+              backgroundColor: colors1
+            }
+          ]
+        },
+        options: {
+          responsive: true
+        }
+    });
+    
+    new Chart("Innings2Chart",
+    {
+      type: "doughnut",
+      data: {
+        labels: labels2,
+        datasets:[
+            { 
+              data : data2,
+              backgroundColor: colors2
+            }
+          ]
+        },
+        options: {
+          responsive: true
+        }
+    });
+    
+    this.flag = true;
+  }
 }
