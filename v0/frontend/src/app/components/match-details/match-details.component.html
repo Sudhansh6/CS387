@@ -24,11 +24,11 @@
               <!-- [class.active]="i == currentIndex"
               (click)="setActiveMatch(i)"
               (dblclick)="redirectMatch(match.match_id)" -->
-                  <th scope = "row">{{ batsman.player_name }}</th>
-                  <td>{{ batsman.runs }}</td>
-                  <td>{{ batsman.fours }}</td>
-                  <td>{{ batsman.sixes }}</td>
-                  <td>{{ batsman.balls }}</td>
+                  <th scope = "row">{{ batsman?.player_name }}</th>
+                  <td>{{ batsman?.runs }}</td>
+                  <td>{{ batsman?.fours }}</td>
+                  <td>{{ batsman?.sixes }}</td>
+                  <td>{{ batsman?.balls }}</td>
               </tr>
           </tbody>
       </table>
@@ -41,8 +41,8 @@
         </thead>
         <tbody>    
             <tr *ngFor="let innings of totalInnings1; let i = index">
-                <td>{{ innings.extra_runs }}</td>
-                <td>{{ innings.tot_runs }}</td>
+                <td>{{ innings?.extra_runs }}</td>
+                <td>{{ innings?.tot_runs }}</td>
             </tr>
         </tbody>
     </table>
@@ -62,10 +62,10 @@
           onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
           onmouseout="this.style.background='white';"
           >
-              <th scope = "row">{{ bowler.player_name }}</th>
-              <td>{{ bowler.balls }}</td>
-              <td>{{ bowler.runs }}</td>
-              <td>{{ bowler.wickets }}</td>
+              <th scope = "row">{{ bowler?.player_name }}</th>
+              <td>{{ bowler?.balls }}</td>
+              <td>{{ bowler?.runs }}</td>
+              <td>{{ bowler?.wickets }}</td>
           </tr>
       </tbody>
     </table>
@@ -93,11 +93,11 @@
             <!-- [class.active]="i == currentIndex"
             (click)="setActiveMatch(i)"
             (dblclick)="redirectMatch(match.match_id)" -->
-                <th scope = "row">{{ batsman.player_name }}</th>
-                <td>{{ batsman.runs }}</td>
-                <td>{{ batsman.fours }}</td>
-                <td>{{ batsman.sixes }}</td>
-                <td>{{ batsman.balls }}</td>
+                <th scope = "row">{{ batsman?.player_name }}</th>
+                <td>{{ batsman?.runs }}</td>
+                <td>{{ batsman?.fours }}</td>
+                <td>{{ batsman?.sixes }}</td>
+                <td>{{ batsman?.balls }}</td>
             </tr>
         </tbody>
     </table>
@@ -110,8 +110,8 @@
       </thead>
       <tbody>    
           <tr *ngFor="let innings of totalInnings2; let i = index">
-              <td>{{ innings.extra_runs }}</td>
-              <td>{{ innings.tot_runs }}</td>
+              <td>{{ innings?.extra_runs }}</td>
+              <td>{{ innings?.tot_runs }}</td>
           </tr>
       </tbody>
     </table>
@@ -131,23 +131,23 @@
           onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
           onmouseout="this.style.background='white';"
           >
-              <th scope = "row">{{ bowler.player_name }}</th>
-              <td>{{ bowler.balls }}</td>
-              <td>{{ bowler.runs }}</td>
-              <td>{{ bowler.wickets }}</td>
+              <th scope = "row">{{ bowler?.player_name }}</th>
+              <td>{{ bowler?.balls }}</td>
+              <td>{{ bowler?.runs }}</td>
+              <td>{{ bowler?.wickets }}</td>
           </tr>
       </tbody>
     </table>
     </div>
     
     <div class = "jumbotron">
-      <h2>Match {{ matchInfo.match_info.match_id }} info</h2>
+      <h2>Match {{ matchInfo?.match_info.match_id }} info</h2>
       <hr>
       <div class = "container">
-          <b>{{ matchInfo.match_info.team1 }}</b> vs <b>{{ matchInfo.match_info.team2 }}</b> 
-          in <b>{{ matchInfo.match_info.season_year }}</b> 
-          at <b>{{ matchInfo.match_info.stadium_name }}, {{ matchInfo.match_info.city_name }}</b><br>
-          <b>{{ matchInfo.match_info.toss_winner }}</b> won the toss and chose to <b>{{ matchInfo.match_info.toss_name }}</b>
+          <b>{{ matchInfo?.match_info.team1 }}</b> vs <b>{{ matchInfo?.match_info.team2 }}</b> 
+          in <b>{{ matchInfo?.match_info.season_year }}</b> 
+          at <b>{{ matchInfo?.match_info.stadium_name }}, {{ matchInfo?.match_info.city_name }}</b><br>
+          <b>{{ matchInfo?.match_info.toss_winner }}</b> won the toss and chose to <b>{{ matchInfo?.match_info.toss_name }}</b>
       </div>
       <hr>
       <div class = "flex-row justify-content-around">
@@ -156,16 +156,16 @@
           <table class = "table">
             <thead>
               <tr>
-                <th>Players in {{ matchInfo.match_info.team1 }}</th>
-                <th>Players in {{ matchInfo.match_info.team2 }} </th>
+                <th>Players in {{ matchInfo?.match_info.team1 }}</th>
+                <th>Players in {{ matchInfo?.match_info.team2 }} </th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
                 <td (click)="redirectPlayer(matchInfo.players1[i].player_id)"
-                >{{ matchInfo.players1[i].player_name }}</td>
+                >{{ matchInfo?.players1[i].player_name }}</td>
                 <td (click)="redirectPlayer(matchInfo.players2[i].player_id)"
-                >{{ matchInfo.players2[i].player_name }}</td>
+                >{{ matchInfo?.players2[i].player_name }}</td>
               </tr>
             </tbody>
           </table>
@@ -180,7 +180,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let i of [0, 1, 2]">
-                <td>{{ matchInfo.umpires[i].umpire_name }}</td>
+                <td>{{ matchInfo?.umpires[i].umpire_name }}</td>
               </tr>
             </tbody>
           </table>
@@ -206,14 +206,14 @@
         <div class = "jumbotron p-2 container" style="margin-right: 10px;">
           
           <div class="d-flex flex-row">
-            <h5>{{ matchInfo.match_info.match_id }} IPL {{ matchInfo.match_info.season_year }}</h5>
+            <h5>{{ matchInfo?.match_info.match_id }} IPL {{ matchInfo?.match_info.season_year }}</h5>
           </div>
           <hr>
           <!-- INNINGS 1 -->
           <div class="d-flex flex-row border" *ngFor="let innings of totalInnings1; let i = index">
-            <div class = "d-2 flex-grow"><b>{{ battingTeamInnings1 }}</b></div>
-            <div class = "d-2 flex-fill">{{ ((ballsInnings1?.length - innings.extra_balls)/6).toFixed(1) }}</div>
-            <div class = "d-2 flex-fill">{{ innings.tot_runs }} / {{ innings.tot_wickets }}</div>
+            <div class = "flex-grow-1"><b>{{ battingTeamInnings1 }}</b></div>
+            <div class = "flex-fill">{{ oversInnings1 }}</div>
+            <div class = "flex-fill">{{ innings?.tot_runs }} / {{ innings?.tot_wickets }}</div>
           </div>
           <div class="d-flex flex-row border">
             <table class = "flex-fill border">
@@ -224,9 +224,9 @@
               onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
               onmouseout="this.style.background='white';"
               >
-                  <td class = "flex-grow-1">{{ p.batsman1 }}</td>
-                  <td class = "flex-fill text-right"><b>{{ p.runs }}</b> </td> 
-                  <td class = "flex-fill"> {{ p.balls }}</td>
+                  <td class = "flex-grow-1">{{ p?.batsman1 }}</td>
+                  <td class = "flex-fill text-right"><b>{{ p?.runs }}</b> </td> 
+                  <td class = "flex-fill"> {{ p?.balls }}</td>
                 </tr>
               </tbody>
             </table>
@@ -238,9 +238,9 @@
               onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
               onmouseout="this.style.background='white';"
               >
-                  <td class = "flex-grow-1">{{ p.bowler1 }}</td>
-                  <td class = "flex-fill text-right"><b>{{ p.wickets }}</b>-</td> 
-                  <td class = "flex-fill"> {{ p.runs }}</td>
+                  <td class = "flex-grow-1">{{ p?.bowler1 }}</td>
+                  <td class = "flex-fill text-right"><b>{{ p?.wickets }}</b>-</td> 
+                  <td class = "flex-fill"> {{ p?.runs }}</td>
                 </tr>
               </tbody>
             </table>
@@ -249,8 +249,8 @@
           <div class="d-flex flex-row border" 
               *ngFor="let innings of totalInnings2; let i = index">
             <div class = "flex-grow-1"><b>{{ battingTeamInnings2 }}</b></div>
-            <div class = "flex-fill">{{ ((ballsInnings2?.length - innings.extra_balls)/6).toFixed(1) }}</div>
-            <div class = "flex-fill">{{ innings.tot_runs }} / {{ innings.tot_wickets }}</div>
+            <div class = "flex-fill">{{ oversInnings2 }}</div>
+            <div class = "flex-fill">{{ innings?.tot_runs }} / {{ innings?.tot_wickets }}</div>
           </div>
           <div class="d-flex flex-row border">
             <table class = "flex-fill border">
@@ -260,9 +260,9 @@
                 onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
                 onmouseout="this.style.background='white';"
                 >
-                  <td class = "d-2 flex-grow-1">{{ p.batsman2 }}</td>
-                  <td class = "d-2 flex-fill text-right"><b>{{ p.runs }}</b> </td> 
-                  <td class = "d-2 flex-fill"> {{ p.balls }}</td>
+                  <td class = "d-2 flex-grow-1">{{ p?.batsman2 }}</td>
+                  <td class = "d-2 flex-fill text-right"><b>{{ p?.runs }}</b> </td> 
+                  <td class = "d-2 flex-fill"> {{ p?.balls }}</td>
                 </tr>
               </tbody>
             </table>
@@ -274,12 +274,17 @@
                 onmouseover="this.style.background='linear-gradient(45deg, rgba(29, 236, 197, 0.5), rgba(91, 14, 214, 0.5))';"
                 onmouseout="this.style.background='white';"
                 >
-                  <td class = "flex-grow-1">{{ p.bowler2 }}</td>
-                  <td class = "flex-fill text-right"><b>{{ p.wickets }}</b>-</td> 
-                  <td class = "flex-fill"> {{ p.runs }}</td>
+                  <td class = "flex-grow-1">{{ p?.bowler2 }}</td>
+                  <td class = "flex-fill text-right"><b>{{ p?.wickets }}</b>-</td> 
+                  <td class = "flex-fill"> {{ p?.runs }}</td>
                 </tr>
               </tbody>
             </table>
+          </div><br>
+          <div class = "container">
+            <h6>
+              <b>{{ matchInfo?.match_info.match_winner }}</b> won by {{ matchInfo?.match_info.win_margin }} {{ matchInfo?.match_info.win_type }} 
+            </h6>
           </div>
         </div>
         <!--  -->

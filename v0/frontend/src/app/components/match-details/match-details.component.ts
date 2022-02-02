@@ -37,6 +37,9 @@ export class MatchDetailsComponent implements OnInit {
   bestInnings2bowlers = new Array();
 
   innings1Plot = true;
+  oversInnings1 = 0;
+  oversInnings2 = 0;
+
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -115,11 +118,13 @@ export class MatchDetailsComponent implements OnInit {
         labels: labels,
         datasets:[
           {fill: false,
+            lineTension: 0,
             borderColor: 'rgba(29, 236, 197, 0.5)',
             pointStyle: 'circle',
             pointRadius: pointRadius1,
             label: this.battingTeamInnings1, data : balls1}, 
           {fill: false,
+            lineTension: 0,
             borderColor: 'rgba(91, 14, 214, 0.5)',
             pointStyle: 'circle',
             pointRadius: pointRadius2,
@@ -143,6 +148,9 @@ export class MatchDetailsComponent implements OnInit {
         value = wickets2[index];
         return value ? 10 : 1;
       }
+      
+      this.oversInnings1 = Math.ceil((balls1.length)/6);
+      this.oversInnings2 = Math.ceil((balls1.length)/6);
   }
 
   async bestPlayers(id: string)

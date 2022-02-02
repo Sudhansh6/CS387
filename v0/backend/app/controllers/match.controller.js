@@ -161,15 +161,19 @@ exports.findBowlersInnings2 = (req, res) => {
 exports.findBallsInnings1 = (req, res) => {
   const id = req.params.id
   sequelize.query(`
-  select over_id*6+ball_id-6 as ball,
-  sum(runs_scored + extra_runs) over (
-    partition by match_id
-    order by over_id*6+ball_id-6
+  select ball, wickets, sum(runs) over (
+    order by ball
     rows unbounded preceding
-  ) as runs, 
-  case when out_type != 'NULL' then 1 else 0 end as wickets, out_type
-  from ball_by_ball 
-  where innings_no=1 and match_id = ${id}
+    ) as runs from
+    (
+      select over_id as ball,
+      sum(runs_scored + extra_runs) as runs,
+      case when sum(case when out_type != 'NULL' then 1 else 0 end) > 0 then 1 else 0 end
+      as wickets
+      from ball_by_ball 
+      where innings_no=1 and match_id = ${id}
+      group by over_id
+    ) as sub1
   `, {
     raw: true,
     type: db.Sequelize.QueryTypes.SELECT
@@ -185,15 +189,19 @@ exports.findBallsInnings1 = (req, res) => {
 exports.findBallsInnings2 = (req, res) => {
   const id = req.params.id
   sequelize.query(`
-  select over_id*6+ball_id-6 as ball,
-  sum(runs_scored + extra_runs) over (
-    partition by match_id
-    order by over_id*6+ball_id-6
+  select ball, wickets, sum(runs) over (
+    order by ball
     rows unbounded preceding
-  ) as runs, 
-  case when out_type != 'NULL' then 1 else 0 end as wickets, out_type
-  from ball_by_ball 
-  where innings_no = 2 and match_id = ${id}
+    ) as runs from
+    (
+      select over_id as ball,
+      sum(runs_scored + extra_runs) as runs,
+      case when sum(case when out_type != 'NULL' then 1 else 0 end) > 0 then 1 else 0 end
+      as wickets
+      from ball_by_ball 
+      where innings_no = 2 and match_id = ${id}
+      group by over_id
+    ) as sub1
   `, {
     raw: true,
     type: db.Sequelize.QueryTypes.SELECT
@@ -220,6 +228,7 @@ exports.findMatchSummary = (req, res) => {
   t3.team_name as toss_winner, toss_name,
   t4.team_name as match_winner,
   venue.venue_name as stadium_name,
+  win_margin, win_type,
   venue.city_name as city_name from (select * from match where match_id = ${id}) as m
   join team as t1 on t1.team_id = team1
   join team as t2 on t2.team_id = team2

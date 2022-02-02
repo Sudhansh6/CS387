@@ -69,7 +69,7 @@ exports.findPointsTable = (req, res) => {
       (select team_id, team_name from team) as t 
       on summary.team = t.team_id
       group by t.team_name
-      order by points desc
+      order by points desc, nrr desc
     `,
     {
       raw: true,
