@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { Match } from 'src/app/models/match.model';
 import { MatchService } from 'src/app/services/match.service';
 import { Router } from '@angular/router'
 
