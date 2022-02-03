@@ -18,4 +18,14 @@ export class PlayerService {
   getplayerstat(id: any): Observable<any> {
     return this.http.get(`${baseUrl}/playerstat/${id}`);
   }
+  getplayercareer(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/playercareer/${id}`);
+  }
+  getplayerbowling(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/playerbowling/${id}`);
+  }
+  getplayerbowlstat(id: any): Observable<any> {
+    return this.http.get(`${baseUrl}/playerbowlstat/${id}`);
+  }
 }
+
