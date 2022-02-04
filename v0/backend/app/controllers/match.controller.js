@@ -52,6 +52,7 @@ exports.findTotalInnings1 = (req, res) => {
   sequelize.query(`
   select sum(extra_runs) as extra_runs, 
   sum(runs_scored+extra_runs) as tot_runs,
+  count(runs_scored) as balls,
   sum(case when extra_runs != 0 then 1 else 0 end) as extra_balls,
   sum(case when out_type != 'NULL' then 1 else 0 end) as tot_wickets
   from ball_by_ball 
@@ -119,6 +120,7 @@ exports.findTotalInnings2 = (req, res) => {
   sequelize.query(`
   select sum(extra_runs) as extra_runs, 
   sum(runs_scored+extra_runs) as tot_runs,
+  count(runs_scored) as balls,
   sum(case when extra_runs != 0 then 1 else 0 end) as extra_balls,
   sum(case when out_type != 'NULL' then 1 else 0 end) as tot_wickets
   from ball_by_ball 
@@ -293,9 +295,10 @@ exports.findBestPlayers = (req, res) => {
   as out1
   where out1.rank_batter <= 3 and runs > 0;
   
-  select player_id, player_name as bowler1, wickets, runs from
+  select player_id, player_name as bowler1, wickets, runs, balls from
   (
     select player_id, player_name,
+    count(runs_scored) as balls,
     sum(case when out_type != 'NULL' then 1 else 0 end)as wickets,
     sum(runs_scored) as runs,
     rank() over (
@@ -309,9 +312,10 @@ exports.findBestPlayers = (req, res) => {
   as out1
   where out1.rank_batter<=3 and wickets > 0 ;
 
-  select player_id, player_name as bowler2, wickets, runs from
+  select player_id, player_name as bowler2, wickets, runs, balls from
   (
     select player_name, player_id,
+    count(runs_scored) as balls,
     sum(case when out_type != 'NULL' then 1 else 0 end)as wickets,
     sum(runs_scored) as runs,
     rank() over (
