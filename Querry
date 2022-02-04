@@ -188,4 +188,22 @@ where bowler=9
 group by bowler,match_id
 order by bowler, match_id
 
+E.
+2.
+a.select venue.venue_id,venue_name,city_name,country_name,capacity,highest_score,least_score,highscore_chased from venue
+join (select venue_id,max(inning2_score) as highscore_chased,max(max_score) as highest_score,min(min_score) as least_score from match
+join (select out1.match_id,out1.sum as inning1_score,out2.sum as inning2_score,GREATEST(out1.sum,out2.sum)as max_score,Least(out1.sum,out2.sum) as min_score from
+(select match_id,sum(runs_scored+extra_runs) 
+from ball_by_ball
+where innings_no=1
+group by match_id
+order by match_id) as out1
+join (select match_id,sum(runs_scored+extra_runs) 
+from ball_by_ball
+where innings_no=2
+group by match_id
+order by match_id) as out2 on out1.match_id=out2.match_id) as out3 
+on out3.match_id=match.match_id
+group by venue_id) as out4 on out4.venue_id=venue.venue_id
+where venue.venue_id = 1
 

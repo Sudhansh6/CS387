@@ -1,24 +1,36 @@
 <div class="container">
 
     <div class = "jumbotron">
-      <h1>Venue Card</h1>
+      <h1>Basic Venue Information</h1>
       <table class="table">
         <tbody>
           <tr>
-            <th scope="row">Player Name</th>
-            <td>{{ venueinfo.player_name }} </td>
+            <th scope="row">Venue Name</th>
+            <td>{{ venueinfo.venue_name }}</td>
           </tr>
           <tr>
-            <th scope="row">Country Name</th>
-            <td>{{ venueinfo.country_name }}</td>
+            <th scope="row">Address</th>
+            <td>{{ venueinfo.city_name }},{{venueinfo.country_name}} </td>
           </tr>
           <tr>
-            <th scope="row">Batting Skill</th>
-            <td>{{ venueinfo.batting_skill }} </td>
+            <th scope="row">Capacity</th>
+            <td>{{ venueinfo.capacity }} </td>
           </tr>
           <tr>
-            <th scope="row">Bowling Skill</th>
-            <td>{{ venueinfo.bowling_skill }} </td>
+            <th scope="row">Total matches played</th>
+            <td>{{ venueinfo.tot_matches }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Highest total recorded</th>
+            <td>{{ venueinfo.highest_score }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Lowest total recorded</th>
+            <td>{{ venueinfo.least_score }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Highest score chased</th>
+            <td>{{ venueinfo.highscore_chased }} </td>
           </tr>
         </tbody>
       </table>
