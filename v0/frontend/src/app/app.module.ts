@@ -10,6 +10,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatchDetailsComponent } from './components/match-details/match-details.component';
 import { PlayerDetailsComponent } from './components/player-details/player-details.component';
 import { PointsTableComponent } from './components/points-table/points-table.component';
+import { VenueDetailsComponent } from './components/venue-details/venue-details.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { PointsTableComponent } from './components/points-table/points-table.com
     MatchListComponent,
     MatchDetailsComponent,
     PlayerDetailsComponent,
-    PointsTableComponent
+    PointsTableComponent,
+    VenueDetailsComponent
   ],
   imports: [
     BrowserModule,
