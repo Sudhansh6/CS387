@@ -11,6 +11,7 @@ import { MatchDetailsComponent } from './components/match-details/match-details.
 import { PlayerDetailsComponent } from './components/player-details/player-details.component';
 import { PointsTableComponent } from './components/points-table/points-table.component';
 import { VenueDetailsComponent } from './components/venue-details/venue-details.component';
+import { VenueListComponent } from './components/venue-list/venue-list.component';
 import { VenueAddComponent } from './components/venue-add/venue-add.component';
 import { FormsModule } from '@angular/forms';
 
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     PlayerDetailsComponent,
     PointsTableComponent,
     VenueDetailsComponent,
+    VenueListComponent,
     VenueAddComponent
   ],
   imports: [
