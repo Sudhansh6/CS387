@@ -1,8 +1,8 @@
 module.exports = app => {
-    const venues = require("../controllers/venue.controller.js");
+    const venue = require("../controllers/venues.controller.js");
   
     var router = require("express").Router();
     // Section E, F
-    router.get("/venues/add", venues.create);
+    router.post("/venues/add", venue.create);
     app.use('/api', router);
   };

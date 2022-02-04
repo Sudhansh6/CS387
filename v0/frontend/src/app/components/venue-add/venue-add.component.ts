@@ -24,10 +24,10 @@ export class VenueAddComponent implements OnInit {
   saveVenue(): void {
     const data = 
     {
-      venue_name: this.venue.venue_name,
-      city_name: this.venue.city_name,
-      country_name: this.venue.country_name,
-      capacity: this.venue.capacity
+      "venue_name": this.venue.venue_name,
+      "city_name": this.venue.city_name,
+      "country_name": this.venue.country_name,
+      "capacity": this.venue.capacity
     };
 
     this.venueAddService.create(data)

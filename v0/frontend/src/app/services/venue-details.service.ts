@@ -13,6 +13,7 @@ export class VenueDetailsService {
   constructor(private http: HttpClient) { }
 
   create(data: any): Observable<any> {
+    console.log("request sent to", baseUrl, data);
     return this.http.post(baseUrl, data);
   }
 }

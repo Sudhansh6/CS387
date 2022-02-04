@@ -65,7 +65,6 @@ export class MatchDetailsComponent implements OnInit {
   
     this.matchInfo = await lastValueFrom(this.matchService.getMatchInfo(id));
 
- 
     if (this.matchInfo.match_info.win_type == "wickets")
     {
         this.battingTeamInnings2 = this.matchInfo.match_info.match_winner;
@@ -82,6 +81,7 @@ export class MatchDetailsComponent implements OnInit {
         else
           this.battingTeamInnings2 = this.matchInfo.match_info.team1;
     }
+
     this.plotBallbyBall(id);
     this.bestPlayers(id);
     this.distributionPlot(id);
@@ -148,9 +148,6 @@ export class MatchDetailsComponent implements OnInit {
         value = wickets2[index];
         return value ? 10 : 1;
       }
-      
-      this.oversInnings1 = Math.ceil((balls1.length)/6);
-      this.oversInnings2 = Math.ceil((balls1.length)/6);
   }
 
   async bestPlayers(id: string)
@@ -166,7 +163,9 @@ export class MatchDetailsComponent implements OnInit {
       else if (element.bowler2 != null)
         this.bestInnings2bowlers.push(element);
     });
-    // console.log(this.bestInnings1batsmen);
+    
+    this.oversInnings1 = Math.ceil((this.totalInnings1[0].balls)/6);
+    this.oversInnings2 = Math.ceil((this.totalInnings2[0].balls)/6);
   }
 
   
@@ -178,7 +177,6 @@ export class MatchDetailsComponent implements OnInit {
   {
     var res1 = await lastValueFrom(this.matchService.getDistribution1(id));
     var res2 = await lastValueFrom(this.matchService.getDistribution2(id));
-    console.log(res1);
     
     var labels1 = new Array(), labels2 = new Array();
     var data1 = new Array(), data2 = new Array();
