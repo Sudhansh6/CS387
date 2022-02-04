@@ -12,6 +12,8 @@ import { PlayerDetailsComponent } from './components/player-details/player-detai
 import { PointsTableComponent } from './components/points-table/points-table.component';
 import { VenueDetailsComponent } from './components/venue-details/venue-details.component';
 import { VenueListComponent } from './components/venue-list/venue-list.component';
+import { VenueAddComponent } from './components/venue-add/venue-add.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,14 +23,16 @@ import { VenueListComponent } from './components/venue-list/venue-list.component
     PlayerDetailsComponent,
     PointsTableComponent,
     VenueDetailsComponent,
-    VenueListComponent
+    VenueListComponent,
+    VenueAddComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgxPaginationModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

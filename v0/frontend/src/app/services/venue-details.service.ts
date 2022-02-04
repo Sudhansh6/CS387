@@ -15,5 +15,8 @@ export class VenueDetailsService {
   }
   getvenueinfo(id: any): Observable<any> {
     return this.http.get(`${baseUrl}/${id}`);
+
+  create(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/add`, data);
   }
 }
