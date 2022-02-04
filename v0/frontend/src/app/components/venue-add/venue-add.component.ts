@@ -29,7 +29,7 @@ export class VenueAddComponent implements OnInit {
       "country_name": this.venue.country_name,
       "capacity": this.venue.capacity
     };
-
+    console.log(data);
     this.venueAddService.create(data)
     .subscribe({
       next: (response) => {

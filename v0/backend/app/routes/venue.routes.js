@@ -3,11 +3,10 @@ module.exports = app => {
   
     var router = require("express").Router();
     // Section E, F
-    router.post("/venues/add", venue.create);
+    router.post("/venues/add", venues.creates);
     router.get("/venues", venues.findall);
-    router.get("/venues/:id", venues.findbyid);
-    const venue = require("../controllers/venues.controller.js");
-
+    router.get("/venue/:id", venues.findbyid);
+    router.get("/venue/temp/:id", venues.tempfindbyid);
     app.use('/api', router);
   };
   

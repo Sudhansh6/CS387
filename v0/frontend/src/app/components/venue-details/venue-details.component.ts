@@ -13,6 +13,8 @@ export class VenueDetailsComponent implements OnInit {
   @Input() viewMode = true;
   message = '';
   venueinfo: any;
+  tempvenueinfo: any;
+  new_venue=false;
   constructor(private venueService: VenueDetailsService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -26,6 +28,14 @@ export class VenueDetailsComponent implements OnInit {
   async getvenueinfo(id: string) {
     console.log("Fetching data...")
     this.venueinfo = await lastValueFrom(this.venueService.getvenueinfo(id));
+    if (this.venueinfo.length == 0) {
+      this.new_venue=true;
+      this.message = 'No data found';
+      console.log("No data found")
+      this.tempvenueinfo = await lastValueFrom(this.venueService.gettempvenueinfo(id));
+      this.tempvenueinfo = this.tempvenueinfo[0];
+      console.log(this.tempvenueinfo);
+    }
     this.venueinfo =this.venueinfo[0];
     console.log(this.venueinfo);
   }

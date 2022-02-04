@@ -3,7 +3,8 @@ const { sequelize } = require("../models");
 const db = require("../models");
 const Op = db.Sequelize.Op;
 
-exports.create = (req, res) => {
+exports.creates = (req, res) => {
+  console.log(req.body);
   sequelize.query(`
   insert into venue (venue_name, city_name, country_name, capacity) 
   values ('${req.body.venue_name}', '${req.body.city_name}', '${req.body.country_name}', '${req.body.capacity}')
@@ -14,6 +15,7 @@ exports.create = (req, res) => {
   }).then((data) => {
     res.send(data);
   }).catch((err) => {
+    console.log(err);
     res.send(`There was an error while fetching data from the database - ${err}`);
   });
 };
@@ -49,6 +51,20 @@ exports.findbyid = (req, res) => {
   on out3.match_id=match.match_id
   group by venue_id) as out4 on out4.venue_id=venue.venue_id  
 where venue.venue_id = ${req.params.id}
+`,
+  {
+    raw: true,
+    type: db.Sequelize.QueryTypes.SELECT
+  }).then((data) => {
+    res.send(data);
+  }).catch((err) => {
+    res.send(`There was an error while fetching data from the database - ${err}`);
+  });
+}
+exports.tempfindbyid = (req, res) => {
+  sequelize.query(`
+  select venue_id,venue_name,city_name,country_name,capacity from venue
+  where venue_id = ${req.params.id}
 `,
   {
     raw: true,
