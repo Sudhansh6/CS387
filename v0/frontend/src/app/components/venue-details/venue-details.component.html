@@ -30,7 +30,7 @@
           </tr>
           <tr>
             <th scope="row">Highest score chased</th>
-            <td>{{ venueinfo?.highscore_chased }} </td>
+            <td>{{ highscore }} </td>
           </tr>
         </tbody>
       </table>
@@ -53,6 +53,14 @@
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="jumbotron" *ngIf="!new_venue">
+      <h1>Outlines of matches</h1>
+      <canvas id="PieChart"></canvas>
+    </div>
+    <div class="jumbotron" *ngIf="!new_venue">
+      <h1>Average First Innings Score </h1>
+      <canvas id="NewChart"></canvas>
     </div>
 </div>
 

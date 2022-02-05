@@ -7,6 +7,9 @@ module.exports = app => {
     router.get("/venues", venues.findall);
     router.get("/venue/:id", venues.findbyid);
     router.get("/venue/temp/:id", venues.tempfindbyid);
+    router.get("/venue/matchoutline/:id", venues.matchoutline);
+    router.get("/venue/avgfirstscore/:id", venues.avgfirstscore);
+    router.get("/venue/highscore/:id", venues.highscorechased);
     app.use('/api', router);
   };
   

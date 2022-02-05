@@ -25,4 +25,13 @@ export class VenueDetailsService {
   gettempvenueinfo(id: any): Observable<any> {
     return this.http.get(`${baseUrl2}/temp/${id}`);
   }
+  getmatchoutline(id: any): Observable<any> {
+    return this.http.get(`${baseUrl2}/matchoutline/${id}`);
+  }
+  getavgfirstscore(id: any): Observable<any> {
+    return this.http.get(`${baseUrl2}/avgfirstscore/${id}`);
+  }
+  gethighscore(id: any): Observable<any> {
+    return this.http.get(`${baseUrl2}/highscore/${id}`);
+  }
 }
