@@ -237,7 +237,7 @@ function getRandomColor(runs:Array<number>,len:number):string[] {
         color[i]='rgb(204, 204, 255, 0.7)';
       }
       else if(runs[i]>50 ){
-        color[i]='rgb(0, 163, 108,  0.7)';
+        color[i]='rgba(249, 253, 9, 0.7)';
       }
   }
   return color;
