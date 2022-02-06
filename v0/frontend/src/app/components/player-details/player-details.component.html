@@ -27,23 +27,20 @@
     <div class = "jumbotron col-md-12" *ngIf="!errorApi1">
         <h2>Player Batting Stats</h2><br>
         <canvas id="Player_Stats" width="500"></canvas>
-        <div class="row">
-          <div class="col-md-4" style="color:rgba(29, 236, 197, 0.7);font-size: 35px;">&#9632;</div>
-          <div class="col-md-5" style="font-size: 25px;"> &#x3d; Runs Scored &#x3c; 20 </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4" style="color:rgb(100, 149, 237, 0.7);font-size: 35px;">&#9632;</div>
-          <div class="col-md-5" style="font-size: 25px;"> = Runs Scored &#x3e;&#x3d;20  and Runs Scored &#x3c; 30 </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4" style="color:rgb(204, 204, 255, 0.7);font-size: 35px;">&#9632;</div>
-          <div class="col-md-5" style="font-size: 25px;"> = Runs Scored &#x3e;&#x3d; 30 and Runs Scored &#x3c;&#x3d; 50</div>
-        </div>
-        <div class="row">
-          <div class="col-md-4" style="color:rgba(249, 253, 9);font-size: 35px;">&#9632;</div>
-          <div class="col-md-5" style="font-size: 25px;"> = Runs Scored &#x3e; 50</div>
-        </div>
-     
+        <table class = "table">
+          <thead>
+            <tr>
+              <td style="color:rgba(29, 236, 197, 0.7);">&#x25AC;</td>
+              <th> Runs Scored &#x3c; 20</th>
+              <td style="color:rgba(100, 149, 237, 0.7);">&#x25AC;</td>
+              <th> 20 &leq; Runs Scored &leq; 30 </th>
+              <td style="color:rgba(204, 204, 255, 0.7);">&#x25AC;</td>
+              <th> 30 &leq; Runs Scored &leq; 50 </th>
+              <td style="color:rgba(249, 253, 97, 0.7);">&#x25AC;</td>
+              <th> 50 &leq; Runs Scored </th>
+            </tr>
+          </thead>
+        </table>
       </div>
     <div class = "jumbotron" *ngIf="!errorApi1">
       <h1>Player Batting Career</h1>

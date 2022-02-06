@@ -12,7 +12,7 @@ exports.findAll = (req, res) => {
     join team as t1 on match.match_winner=t1.team_id 
     join team as t2 on match.team1=t2.team_id 
     join team as t3 on match.team2=t3.team_id 
-    order by season_year desc`,
+    order by season_year desc, match_id desc`,
     {
       raw: true,
       type: db.Sequelize.QueryTypes.SELECT
@@ -295,10 +295,10 @@ exports.findBestPlayers = (req, res) => {
   as out1
   where out1.rank_batter <= 3 and runs > 0;
   
-  select player_id, player_name as bowler1, wickets, runs, balls from
+  select player_id, player_name as bowler1, wickets, runs, overs from
   (
     select player_id, player_name,
-    count(runs_scored) as balls,
+    count(distinct over_id) as overs,
     sum(case when out_type != 'NULL' then 1 else 0 end)as wickets,
     sum(runs_scored) as runs,
     rank() over (
@@ -312,10 +312,10 @@ exports.findBestPlayers = (req, res) => {
   as out1
   where out1.rank_batter<=3 and wickets > 0 ;
 
-  select player_id, player_name as bowler2, wickets, runs, balls from
+  select player_id, player_name as bowler2, wickets, runs, overs from
   (
     select player_name, player_id,
-    count(runs_scored) as balls,
+    count(distinct over_id) as overs,
     sum(case when out_type != 'NULL' then 1 else 0 end)as wickets,
     sum(runs_scored) as runs,
     rank() over (
@@ -344,25 +344,14 @@ exports.findBestPlayers = (req, res) => {
 exports.findDistribution1 = (req, res) => {
   const id = req.params.id
   sequelize.query(`
-  select round(((extras*1.0)/(tot_runs*1.0))*100,2)as extras,
-  coalesce(round(((sixes*1.0)/(tot_runs*1.0))*100,2), 0 )as sixes,
-  coalesce(round(((fours*1.0)/(tot_runs*1.0))*100,2), 0 )as fours,
-  coalesce(round(((threes*1.0)/(tot_runs*1.0))*100,2), 0 )as threes,
-  coalesce(round(((twos*1.0)/(tot_runs*1.0))*100,2), 0 )as twos,
-  coalesce(round(((ones*1.0)/(tot_runs*1.0))*100,2), 0 )as ones
-  from
-  (select match_id,sum(extra_runs) as extras,
+  select sum(extra_runs) as extras,
   sum(case runs_scored when 6 then 6 else null end) as sixes,
   sum(case runs_scored when 4 then 4 else null end) as fours,
   sum(case runs_scored when 3 then 3 else null end) as threes,
   sum(case runs_scored when 2 then 2 else null end) as twos,
   sum(case runs_scored when 1 then 1 else null end) as ones,
   sum(extra_runs+runs_scored) as tot_runs
-  from ball_by_ball
-  where innings_no=1 
-  group by match_id
-  order by match_id ) as out1 
-  where match_id = ${id}
+  from ball_by_ball where match_id = ${id} and innings_no = 1 
   `, {
     raw: true,
     type: db.Sequelize.QueryTypes.SELECT
@@ -376,25 +365,14 @@ exports.findDistribution1 = (req, res) => {
 exports.findDistribution2 = (req, res) => {
   const id = req.params.id
   sequelize.query(`
-  select round(((extras*1.0)/(tot_runs*1.0))*100,2)as extras,
-  coalesce(round(((sixes*1.0)/(tot_runs*1.0))*100,2), 0 )as sixes,
-  coalesce(round(((fours*1.0)/(tot_runs*1.0))*100,2), 0 )as fours,
-  coalesce(round(((threes*1.0)/(tot_runs*1.0))*100,2), 0 )as threes,
-  coalesce(round(((twos*1.0)/(tot_runs*1.0))*100,2), 0 )as twos,
-  coalesce(round(((ones*1.0)/(tot_runs*1.0))*100,2), 0 )as ones
-  from
-  (select match_id,sum(extra_runs) as extras,
+  select sum(extra_runs) as extras,
   sum(case runs_scored when 6 then 6 else null end) as sixes,
   sum(case runs_scored when 4 then 4 else null end) as fours,
   sum(case runs_scored when 3 then 3 else null end) as threes,
   sum(case runs_scored when 2 then 2 else null end) as twos,
   sum(case runs_scored when 1 then 1 else null end) as ones,
   sum(extra_runs+runs_scored) as tot_runs
-  from ball_by_ball
-  where innings_no = 2 
-  group by match_id
-  order by match_id ) as out1 
-  where match_id = ${id}
+  from ball_by_ball where match_id = ${id} and innings_no = 2 
   `, {
     raw: true,
     type: db.Sequelize.QueryTypes.SELECT
