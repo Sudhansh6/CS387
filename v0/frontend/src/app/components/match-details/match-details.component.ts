@@ -27,7 +27,7 @@ export class MatchDetailsComponent implements OnInit {
   matchInfo: any;
   ballByBallChart: any;
   flag = false;
-
+  section3 = true;
   battingTeamInnings1: any;
   battingTeamInnings2: any;
 
@@ -131,7 +131,22 @@ export class MatchDetailsComponent implements OnInit {
             label: this.battingTeamInnings2, data : balls2},
           ]
         },
-        options: {}
+        options: {
+          scales: {
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Overs'
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Runs'
+              }
+            }]
+          }   
+        }
       });
 
       function pointRadius1(context: any)
@@ -139,14 +154,14 @@ export class MatchDetailsComponent implements OnInit {
         let index = context.dataIndex;
         let value = false;
         value = wickets1[index];
-        return value ? 10 : 1;
+        return value ? 10 + Math.random()*2: 1;
       }
       function pointRadius2(context: any)
       {
         let index = context.dataIndex;
         let value = false;
         value = wickets2[index];
-        return value ? 10 : 1;
+        return value ? 10 + Math.random()*2: 1;
       }
   }
 

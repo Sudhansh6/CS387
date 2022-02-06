@@ -3,7 +3,7 @@
   <div class = "page-header">
     <h2>Scorecard</h2>
     <div class = "jumbotron">
-      <h4>Innings 1</h4>
+      <h4>Innings 1 - {{ battingTeamInnings1 }}</h4>
       <table class="table">
           <thead>
               <tr>
@@ -36,13 +36,13 @@
         <thead>
           <tr>
             <th>Extras</th>
-            <th>Total</th>
+            <th>Total (Wickets)</th>
           </tr>
         </thead>
         <tbody>    
             <tr *ngFor="let innings of totalInnings1; let i = index">
                 <td>{{ innings?.extra_runs }}</td>
-                <td>{{ innings?.tot_runs }}</td>
+                <td>{{ innings?.tot_runs }} ({{ innings?.tot_wickets }})</td>
             </tr>
         </tbody>
     </table>
@@ -72,7 +72,7 @@
     
   </div>
   <div class = "jumbotron">
-    <h4>Innings 2</h4>
+    <h4>Innings 2 - {{ battingTeamInnings2 }} </h4>
     <table class="table">
         <thead>
             <tr>
@@ -105,13 +105,13 @@
       <thead>
         <tr>
           <th>Extras</th>
-          <th>Total</th>
+          <th>Total (Wickets)</th>
         </tr>
       </thead>
       <tbody>    
           <tr *ngFor="let innings of totalInnings2; let i = index">
               <td>{{ innings?.extra_runs }}</td>
-              <td>{{ innings?.tot_runs }}</td>
+              <td>{{ innings?.tot_runs }} ({{ innings?.tot_wickets }})</td>
           </tr>
       </tbody>
     </table>
@@ -193,17 +193,25 @@
       <h2>Score Comparison</h2>  
       <div class = "jumbotron col-md-12">
         <canvas id="BallByBallChart" width="500"> </canvas>
+        <div class = "container text-center">
+          <h6>
+            <b>{{ matchInfo?.match_info.match_winner }}</b> won by {{ matchInfo?.match_info.win_margin }} {{ matchInfo?.match_info.win_type }} 
+          </h6>
+        </div>
       </div>
     </div>
 
     <!-- SECTION 3 -->
-    <div class = "page-header">
+    <div class ="text-center">
+      <button class = "btn-primary btn" (click) = "section3 = !section3">Toggle Summary visibility</button>
+    </div>
+    <div class = "page-header" [hidden]="section3">
       <h2>Match Summary</h2> 
-      <div class = "d-flex flex-column d-sm-flex flex-sm-row justify-content-between">  
+      <div class = "d-flex flex-row flex-wrap justify-content-between">  
         <!--  -->
         <!-- match info -->
         <!--  --> 
-        <div class = "jumbotron p-2 flex-grow container" style="margin-right: 10px;">
+        <div class = "jumbotron p-2 container" style="margin-right: 10px;">
           
           <div class="d-flex flex-row">
             <h5>{{ matchInfo?.match_info.match_id }} IPL {{ matchInfo?.match_info.season_year }}</h5>
@@ -247,7 +255,7 @@
                   <th>Bowler</th>
                   <th>Wickets</th>
                   <th>Runs</th>
-                  <th>Balls</th>
+                  <th>Overs</th>
                 </tr>
               </thead>
               <tbody>
@@ -260,7 +268,7 @@
                   <td class = "">{{ p?.bowler1 }}</td>
                   <td class = "text-right"><b>{{ p?.wickets }}</b></td> 
                   <td class = ""> {{ p?.runs }}</td>
-                  <td class = "text-secondary"> <small>{{ p?.balls }}</small></td>
+                  <td class = "text-secondary"> <small>{{ p?.overs }}</small></td>
                 </tr>
               </tbody>
             </table>
@@ -304,7 +312,7 @@
                   <th>Bowler</th>
                   <th>Wickets</th>
                   <th>Runs</th>
-                  <th>Balls</th>
+                  <th>Overs</th>
                 </tr>
               </thead>
               <tbody>
@@ -317,7 +325,7 @@
                   <td class = "">{{ p?.bowler2 }}</td>
                   <td class = "text-right"><b>{{ p?.wickets }}</b></td> 
                   <td class = ""> {{ p?.runs }}</td>
-                  <td class = "text-secondary"> <small>{{ p?.balls }}</small></td>
+                  <td class = "text-secondary"> <small>{{ p?.overs }}</small></td>
                 </tr>
               </tbody>
             </table>
