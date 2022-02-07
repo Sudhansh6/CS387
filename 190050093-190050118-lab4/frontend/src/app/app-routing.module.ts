@@ -7,6 +7,8 @@ import { PointsTableComponent } from './components/points-table/points-table.com
 import { VenueDetailsComponent } from './components/venue-details/venue-details.component';
 import { VenueListComponent } from './components/venue-list/venue-list.component';
 import { VenueAddComponent } from './components/venue-add/venue-add.component';
+import { LoadingComponent } from './components/loading/loading.component';
+
 
 const routes: Routes = [
   { path: 'matches', component: MatchListComponent},
@@ -16,6 +18,7 @@ const routes: Routes = [
   { path: 'venues', component: VenueListComponent },
   { path: 'venue/:id', component: VenueDetailsComponent },
   { path: 'venues/add', component: VenueAddComponent },
+  { path: 'loading', component: LoadingComponent },
 ];
 
 @NgModule({

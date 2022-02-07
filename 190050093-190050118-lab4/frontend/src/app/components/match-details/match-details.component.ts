@@ -3,6 +3,7 @@ import { MatchService } from 'src/app/services/match.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Chart } from 'chart.js';
 import { lastValueFrom } from 'rxjs';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-match-details',
@@ -42,6 +43,7 @@ export class MatchDetailsComponent implements OnInit {
 
   constructor(private matchService: MatchService,
     private route: ActivatedRoute,
+    private loadingService: LoadingService,
     private router: Router) { }
 
   async ngOnInit() {
@@ -49,7 +51,9 @@ export class MatchDetailsComponent implements OnInit {
       this.flag = false;
       this.innings1Plot = true;
       this.message = 'Loading...';
+      this.loadingService.startLoading();
       this.getMatch(this.route.snapshot.params["id"]);
+      this.loadingService.stopLoading();
     }
   }
 

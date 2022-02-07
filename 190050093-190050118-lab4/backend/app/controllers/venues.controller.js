@@ -4,7 +4,7 @@ const db = require("../models");
 const Op = db.Sequelize.Op;
 
 exports.creates = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   sequelize.query(`
   insert into venue (venue_name, city_name, country_name, capacity) 
   values ('${req.body.venue_name}', '${req.body.city_name}', '${req.body.country_name}', '${req.body.capacity}')

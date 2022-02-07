@@ -15,6 +15,8 @@ import { VenueListComponent } from './components/venue-list/venue-list.component
 import { VenueAddComponent } from './components/venue-add/venue-add.component';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from './components/loading/loading.component';
+import { LoadingInterceptor } from './components/loading.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,13 @@ import { LoadingComponent } from './components/loading/loading.component';
     MDBBootstrapModule.forRoot(),
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
