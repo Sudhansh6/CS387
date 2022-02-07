@@ -14,6 +14,7 @@ import { VenueDetailsComponent } from './components/venue-details/venue-details.
 import { VenueListComponent } from './components/venue-list/venue-list.component';
 import { VenueAddComponent } from './components/venue-add/venue-add.component';
 import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormsModule } from '@angular/forms';
     PointsTableComponent,
     VenueDetailsComponent,
     VenueListComponent,
-    VenueAddComponent
+    VenueAddComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
