@@ -33,15 +33,15 @@ exports.findPointsTable = (req, res) => {
       sum(case when match_winner = team1 and win_type = 'runs' then in1_runs
         when match_winner = team2 and win_type = 'wickets' then in1_runs
         else in2_runs end) as my_runs,
-        sum(case when match_winner = team2 and win_type = 'runs' then in2_runs
-        when match_winner = team1 and win_type = 'wickets' then in2_runs
-        else in1_runs end) as opp_runs,
+        sum(case when match_winner = team2 and win_type = 'runs' then in1_runs
+        when match_winner = team1 and win_type = 'wickets' then in1_runs
+        else in2_runs end) as opp_runs,
       sum(case when match_winner = team1 and win_type = 'runs' then in1_overs
         when match_winner = team2 and win_type = 'wickets' then in1_overs
         else in2_overs end) as my_overs,
-        sum(case when match_winner = team2 and win_type = 'runs' then in2_overs
-        when match_winner = team1 and win_type = 'wickets' then in2_overs
-        else in1_overs end) as opp_overs,
+        sum(case when match_winner = team2 and win_type = 'runs' then in1_overs
+        when match_winner = team1 and win_type = 'wickets' then in1_overs
+        else in2_overs end) as opp_overs,
       sum((team1 = match_winner)::int)*2 as points
       from match join params on params.match_id = match.match_id
       where season_year = ${year}
@@ -58,15 +58,15 @@ exports.findPointsTable = (req, res) => {
       sum(case when match_winner = team2 and win_type = 'runs' then in1_runs
         when match_winner = team1 and win_type = 'wickets' then in1_runs
         else in2_runs end) as my_runs,
-        sum(case when match_winner = team1 and win_type = 'runs' then in2_runs
-        when match_winner = team2 and win_type = 'wickets' then in2_runs
-        else in1_runs end) as opp_runs,
+        sum(case when match_winner = team1 and win_type = 'runs' then in1_runs
+        when match_winner = team2 and win_type = 'wickets' then in1_runs
+        else in2_runs end) as opp_runs,
       sum(case when match_winner = team2 and win_type = 'runs' then in1_overs
         when match_winner = team1 and win_type = 'wickets' then in1_overs
         else in2_overs end) as my_overs,
-        sum(case when match_winner = team1 and win_type = 'runs' then in2_overs
-        when match_winner = team2 and win_type = 'wickets' then in2_overs
-        else in1_overs end) as opp_overs,
+        sum(case when match_winner = team1 and win_type = 'runs' then in1_overs
+        when match_winner = team2 and win_type = 'wickets' then in1_overs
+        else in2_overs end) as opp_overs,
       sum((team2 = match_winner)::int)*2 as points
       from match join params on params.match_id = match.match_id
       where season_year = ${year}

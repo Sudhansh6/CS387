@@ -19,8 +19,10 @@ export class PointsTableComponent implements OnInit {
 
   async ngOnInit()
   {
-    this.year = Number(this.route.snapshot.params["year"]);
-    this.retrievePointsTable(this.route.snapshot.params["year"]);
+    this.route.params.subscribe(params => {
+      this.year = Number(params["year"]);
+      this.retrievePointsTable(params["year"]);
+    });
   }
 
   async retrievePointsTable(year: any)
