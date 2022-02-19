@@ -1,0 +1,66 @@
+<div class="container">
+
+    <div class = "jumbotron" *ngIf="!new_venue">
+      <h1>Basic Venue Information</h1>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Venue Name</th>
+            <td>{{ venueinfo?.venue_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Address</th>
+            <td>{{ venueinfo?.city_name }}, {{venueinfo?.country_name}} </td>
+          </tr>
+          <tr>
+            <th scope="row">Capacity</th>
+            <td>{{ venueinfo?.capacity }} </td>
+          </tr>
+          <tr>
+            <th scope="row" >Total matches played</th>
+            <td>{{ venueinfo?.tot_matches }} </td>
+          </tr>
+          <tr>
+            <th scope="row" >Highest total recorded</th>
+            <td>{{ venueinfo?.highest_score }} </td>
+          </tr>
+          <tr>
+            <th scope="row" >Lowest total recorded</th>
+            <td>{{ venueinfo?.least_score }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Highest score chased</th>
+            <td>{{ highscore }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class = "jumbotron" *ngIf="new_venue">
+      <h1>Basic Venue Information</h1>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Venue Name</th>
+            <td>{{ tempvenueinfo?.venue_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Address</th>
+            <td>{{ tempvenueinfo?.city_name }},{{tempvenueinfo?.country_name}} </td>
+          </tr>
+          <tr>
+            <th scope="row">Capacity</th>
+            <td>{{ tempvenueinfo?.capacity }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="jumbotron" *ngIf="!new_venue">
+      <h1>Outlines of matches</h1>
+      <canvas id="PieChart"></canvas>
+    </div>
+    <div class="jumbotron" *ngIf="!new_venue">
+      <h1>Average First Innings Score </h1>
+      <canvas id="NewChart"></canvas>
+    </div>
+</div>
+

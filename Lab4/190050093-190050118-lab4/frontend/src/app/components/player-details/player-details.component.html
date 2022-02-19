@@ -1,0 +1,117 @@
+<div class="container">
+
+      <div class = "jumbotron">
+        <h1>Player Card</h1>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th scope="row">Player Name</th>
+              <td>{{ playerinfo.player_name }} </td>
+            </tr>
+            <tr>
+              <th scope="row">Country Name</th>
+              <td>{{ playerinfo.country_name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Batting Skill</th>
+              <td>{{ playerinfo.batting_skill }} </td>
+            </tr>
+            <tr>
+              <th scope="row">Bowling Skill</th>
+              <td>{{ playerinfo.bowling_skill }} </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    <div class = "jumbotron col-md-12" *ngIf="!errorApi1">
+        <h2>Player Batting Stats</h2><br>
+        <canvas id="Player_Stats" width="500"></canvas>
+        <table class = "table">
+          <thead>
+            <tr>
+              <td style="color:rgba(29, 236, 197, 0.7);">&#x25AC;</td>
+              <th> Runs Scored &#x3c; 20</th>
+              <td style="color:rgba(100, 149, 237, 0.7);">&#x25AC;</td>
+              <th> 20 &leq; Runs Scored &leq; 30 </th>
+              <td style="color:rgba(204, 204, 255, 0.7);">&#x25AC;</td>
+              <th> 30 &leq; Runs Scored &leq; 50 </th>
+              <td style="color:rgba(249, 253, 97, 0.7);">&#x25AC;</td>
+              <th> 50 &leq; Runs Scored </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    <div class = "jumbotron" *ngIf="!errorApi1">
+      <h1>Player Batting Career</h1>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">Matches</th>
+            <td>{{ playercareer.matches }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Runs</th>
+            <td>{{ playercareer.runs }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Four</th>
+            <td>{{ playercareer.fours }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Six</th>
+            <td>{{ playercareer.sixes }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Fifty</th>
+            <td>{{ playercareer.fifty }} </td>
+          </tr>
+          <tr>
+            <th scope="row">HS </th>
+            <td>{{ playercareer.hs }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Strike Rate</th>
+            <td>{{ playercareer.strike_rate }} </td>
+          </tr>
+          <tr>
+            <th scope="row">Average</th>
+            <td>{{ playercareer.average }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class = "jumbotron" *ngIf="!errorApi2">
+      <h1>Player Bowling Career</h1>
+      <table class="table" >
+        <thead>
+          <tr>
+              <th scope = "col">Matches</th>
+              <th scope = "col">Runs</th>
+              <th scope = "col">wickets</th>
+              <th scope = "col">overs</th>
+              <th scope = "col">balls</th>
+              <th scope = "col">Economy</th>
+              <th scope = "col">Five Wickets</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ playerbowling.matches }}</td>
+            <td>{{ playerbowling.runs }}</td>
+            <td>{{ playerbowling.wickets }}</td>
+            <td>{{ playerbowling.overs }}</td>
+            <td>{{ playerbowling.balls }}</td>
+            <td>{{ playerbowling.economy }}</td>
+            <td>{{ playerbowling.five_wickets }}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+    <div class = "jumbotron col-md-12" *ngIf="!errorApi2">
+      <h2>Player Bowling Stats</h2><br>
+      <canvas id="Player_bowling_Stat" width="500"></canvas>
+    </div>
+  </div>
+  
