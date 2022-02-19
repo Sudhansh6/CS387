@@ -17,15 +17,19 @@ typedef struct {
     int numColumns;
     ColumnDesc **columns; // array of column descriptors
 } Schema;
-
+typedef int RecId;
 typedef struct {
     Schema *schema;
-
-    UNIMPLEMENTED; 
-    
+    int fd;
+    char *dbname;
+    int numSlots;
+//    int *freeSpace;
+    int curr_page;
+//    int next_page;
+    RecId *rowoff; // array of offsets to the start of each row
 } Table ;
 
-typedef int RecId;
+
 
 int
 Table_Open(char *fname, Schema *schema, bool overwrite, Table **table);

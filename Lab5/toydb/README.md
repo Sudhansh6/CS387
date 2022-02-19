@@ -7,8 +7,18 @@ This assignment is conceptually split into three tasks.
 
 First, you need to fill in the missing code in nthe dblayer directory. It is a record or tuple layer on top of a physical layer library (pflayer, which is provided to you). The physical layer library presents a paged file abstraction, where a file is logically split into pages. 
 
-You have to structure each page as a slotted-page structure. That is, the header at the top of the page must contain the following information: an array of pointers (offset within the page) to each record, the number of such records, and the pointer to the free space. The actual record data is stored bottom up from the  page. Tuples are addressed by a 4 byte 'rid' (record id), where the first 2 bytes identify a page, and the other two are an offset in the slot header.
-Note that this layer treats the record as a blob of bytes, and does not know about columns or fields. 
+You have to structure each page as a slotted-page structure. That is, the header at the top of the page must contain the following information:
+
+1. an array of pointers (offset within the page) to each record, 
+
+2. the number of such records, 
+
+3. and the pointer to the free space. 
+
+4. The actual record data is stored bottom up from the  page. 
+
+   Tuples are addressed by a 4 byte 'rid' (record id), where the first 2 bytes identify a page, and the other two are an offset in the slot header.
+   Note that this layer treats the record as a blob of bytes, and does not know about columns or fields. 
 
 For this part of the assignment, search for "UNMPLEMENTED" in tbl.c and tbl.h, and put in the relevant code.
 
