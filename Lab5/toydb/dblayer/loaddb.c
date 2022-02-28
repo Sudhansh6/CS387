@@ -77,14 +77,14 @@ loadCSV() {
     Table *tbl;
 //    printf("Hi\n");
    //UNIMPLEMENTED;
-    int tbl_err=Table_Open(DB_NAME, sch, true, &tbl);
+    int tbl_err = Table_Open(DB_NAME, sch, true, &tbl);
     printf("Table is succesfully Opened\n");
     if(tbl_err < 0){
         PF_PrintError();
         printf("Error: Could not open table %s\n", DB_NAME);
         exit(EXIT_FAILURE);
     }
-    int indexFD=tbl->fd;
+    int indexFD = tbl->fd;
     printf("Opened table %s\n", DB_NAME);
 
     char *tokens[MAX_TOKENS];
@@ -92,10 +92,11 @@ loadCSV() {
     printf("-------------------------------------\n");
     while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
         int n = split(line, ",", tokens);
-        assert (n == sch->numColumns);
+        assert (n == sch -> numColumns);
         int len = encode(sch, tokens, record, sizeof(record));
         RecId rid;
-        printf("%d,%s\n",n,sch->columns[1]->name);
+        printf("%d,%s\n", n, sch->columns[1]->name);
+        
     //    UNIMPLEMENTED;
         int rid_err =Table_Insert(tbl, record, len, &rid);
         if(rid_err < 0){
@@ -112,7 +113,7 @@ loadCSV() {
     //    UNIMPLEMENTED;
         // Use the population field as the field to index on
         
-        int index_err = AM_InsertEntry(indexFD,'i',4, tokens[2], rid);
+        int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
         if(index_err < 0){
             PF_PrintError();
             printf("Error: Could not insert index\n");

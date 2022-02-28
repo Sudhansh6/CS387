@@ -11,13 +11,19 @@ typedef char byte;
 typedef struct {
     char *name;
     int  type;  // one of VARCHAR, INT, LONG
+    int width; // width in bytes
 } ColumnDesc;
 
+// Class for schema
 typedef struct {
     int numColumns;
     ColumnDesc **columns; // array of column descriptors
 } Schema;
+
+// A record
 typedef int RecId;
+
+// Class for relations
 typedef struct {
     Schema *schema;
     int fd;

@@ -7,18 +7,47 @@
 #include "../amlayer/am.h"
 #define checkerr(err) {if (err < 0) {PF_PrintError(); exit(1);}}
 
-
+/*
+The following function prints the input row
+*/
 void
 printRow(void *callbackObj, RecId rid, byte *row, int len) {
     Schema *schema = (Schema *) callbackObj;
     byte *cursor = row;
 
    // UNIMPLEMENTED;
+    for (int i = 0; i < schema->numColumns; i++) {
+        switch (schema->columns[i]->type) {
+            case VARCHAR:
+                printf("%s", DecodeCString(cursor, len, NULL));
+                break;
+            case INT:
+                printf("%d", DecodeInt(cursor));
+                break;
+            case LONG:
+                printf("%ld", DecodeLong(cursor));
+                break;
+            default:
+                printf("Error: Unknown type %d\n", schema->columns[i]->type);
+                exit(1);
+        }
+        if (i < schema->numColumns - 1) {
+            printf(",");
+        }
+        cursor += schema->columns[i]->width;
+    }
+    printf("\n");
 }
 
 #define DB_NAME "data.db"
 #define INDEX_NAME "data.db.0"
-	 
+
+void
+sequential_scan()
+{
+
+}
+
 void
 index_scan(Table *tbl, Schema *schema, int indexFD, int op, int value) {
   //  UNIMPLEMENTED;
@@ -43,6 +72,7 @@ main(int argc, char **argv) {
     if (argc == 2 && *(argv[1]) == 's') {
 	//UNIMPLEMENTED;
 	// invoke Table_Scan with printRow, which will be invoked for each row in the table.
+        Table_Scan(tbl, schema, printRow);
     } else {
 	// index scan by default
 	int indexFD = PF_OpenFile(INDEX_NAME);

@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,8 +31,8 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
     // does not really need the schema, because we are only concentrating
     // on record storage. 
     
+    // Overwrite the file if it exists
     if(overwrite){
-        //checkerr(PF_DestroyFile(dbname));
         int dest_file = PF_DestroyFile(dbname);
         printf("Got into the destroyer\n");
         if(dest_file < 0){
@@ -41,8 +40,9 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
             printf("Error: Could not destroy file %s\n", dbname);
             exit(EXIT_FAILURE);
         }
-        
     }
+
+    // Create the file
     PF_Init();
     int new_file = PF_CreateFile(dbname);
     printf("New Page file is created\n");
@@ -51,7 +51,8 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
         printf("Error in creating the file %s\n", dbname);
         return new_file;
     }
-    //checkerr(new_file);
+    
+    // Open the file
     int open_file = PF_OpenFile(dbname);
     printf("File is opened\n");
     if (open_file < 0) {
@@ -59,25 +60,28 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
         printf("Error in opening the file %s\n", dbname);
         return open_file;
     }
-    //checkerr(open_file);
+
+    // Allocate the table
     Table *table = malloc(sizeof(Table));
+    if (table == NULL) {
+        printf("Error: Could not allocate table\n");
+        return -1;
+    }
     printf("Table is allocated\n");
-    // Schema *temp_schema = table->schema;
-    // temp_schema = schema;
-    //memcpy(table->schema, schema, sizeof(*schema));
+
+    // Initialize the table
     table->schema = schema;
     printf("Schema is copied\n");
     table->rowoff = NULL;
     printf("Rowoff is set to NULL\n");
     table->fd = open_file;
     printf("File descriptor is set\n");
-    //*(table->dbname) = *(dbname);
+    
     table->dbname = dbname;
-//    table->freeSpace=malloc
-    table->numSlots=0;
-
-    table->curr_page=-1;
+    table->numSlots = 0;
+    table->curr_page = 0;
     *ptable = table;
+
     printf("Table is returned\n");
 
     return 0;
@@ -86,9 +90,10 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
 void
 Table_Close(Table *tbl) {
     //UNIMPLEMENTED;
+
     // Unfix any dirty pages, close file.
     int pagenum = 0;
-    char *pageBuf = malloc(PF_PAGE_SIZE);
+ 
     while(pagenum <= tbl->curr_page){
         int unfix = PF_UnfixPage(tbl->fd, pagenum, false);
         if (unfix < 0) {
@@ -96,21 +101,22 @@ Table_Close(Table *tbl) {
             printf("Error in unfixing the page %d\n", pagenum);
             exit(EXIT_FAILURE);
         }
-        //checkerr(unfix);
-        int page_err=PF_GetNextPage(tbl->fd, &pagenum,&pageBuf);
-        if(page_err < 0){
-            PF_PrintError();
-            printf("Error in getting the next page %d\n", pagenum);
-            exit(EXIT_FAILURE);
-        }
+        pagenum++;
+        // int page_err = PF_GetNextPage(tbl->fd, &pagenum, &pageBuf);
+        // if(page_err < 0){
+        //     PF_PrintError();
+        //     printf("Error in getting the next page %d\n", pagenum);
+        //     exit(EXIT_FAILURE);
+        // }
     }
+
+    // Close the file
     int closefile = PF_CloseFile(tbl->fd);
     if (closefile < 0) {
         PF_PrintError();
         printf("Error in closing the file %s\n", tbl->dbname);
         exit(EXIT_FAILURE);
     }
-    //checkerr(closefile);
 }
 
 
@@ -120,19 +126,12 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
     // Get the next free slot on page, and copy record in the free
     // space
     // Update slot and free space index information on top of page.
+
+    // Get the current page
     char *temp_buff;
-    //tbl->curr_page = PF_AllocPage(tbl->fd, &tbl->next_page,&temp_buff);
-    if(tbl->curr_page == -1){
-        int pag_err=PF_AllocPage(tbl->fd, &tbl->curr_page,&temp_buff);
-        printf("Page is allocated with page num %d\n", tbl->curr_page);
-        if(pag_err < 0){
-            PF_PrintError();
-            printf("Error in allocating the page %d\n", tbl->curr_page);
-            exit(EXIT_FAILURE);
-        }
-    }
-    else{
-        int pag_err=PF_GetThisPage(tbl->fd, tbl->curr_page,&temp_buff);
+    tbl->curr_page = PF_GetThisPage(tbl->fd, tbl->curr_page, &temp_buff);
+    if(tbl -> curr_page == -1){
+        int pag_err = PF_AllocPage(tbl->fd, &tbl->curr_page, &temp_buff);
         printf("Page is allocated with page num %d\n", tbl->curr_page);
         if(pag_err < 0){
             PF_PrintError();
@@ -144,11 +143,15 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
    
     printf("Record is %d bytes\n", len);
     printf("Record is %s\n", record);
-    int free_space = getLen(tbl->numSlots, temp_buff);
+
+
+    int free_space = getLen(tbl -> numSlots, temp_buff);
     printf("Free space is %d\n", free_space);
-    int new_page = 0;
+
+    // Allocate a fresh page if len is not enough for remaining space
+    int new_page = &tbl->curr_page + 1;
     if(free_space < len){
-        int alloc_err = PF_AllocPage(tbl->fd, &new_page,&temp_buff);
+        int alloc_err = PF_AllocPage(tbl->fd, &new_page, &temp_buff);
         printf("Page is allocated with page num %d\n", new_page);
         if(alloc_err < 0){
             PF_PrintError();
@@ -157,14 +160,15 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
         }
         PF_UnfixPage(tbl->fd, tbl->curr_page, TRUE);
         tbl->curr_page = new_page;
-        PF_GetThisPage(tbl->fd, tbl->curr_page,&temp_buff);
     }
 
+    // Get the next free slot on page, and copy record in the free
+    // TODO: Check if the record is too big
     int slot = getNumSlots(temp_buff);
     int offset = getNthSlotOffset(slot, temp_buff);
     int new_offset = offset + len;
-    setNumSlots(temp_buff, slot+1);
-//    setLen(0, temp_buff, new_offset);
+    setNumSlots(temp_buff, slot + 1);
+
     memcpy(temp_buff + offset, record, len);
     PF_UnfixPage(tbl->fd, tbl->curr_page, TRUE);
     return 0;
