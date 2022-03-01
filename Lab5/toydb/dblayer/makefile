@@ -1,4 +1,4 @@
-CC=cc -target x86_64-apple-darwin20.3.0
+CC=cc 
 CFLAGS = -g
 OBJS=tbl.o codec.o util.o ../pflayer/pflayer.a ../amlayer/amlayer.a
 

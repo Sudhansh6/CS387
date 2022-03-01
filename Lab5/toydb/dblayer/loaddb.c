@@ -88,31 +88,36 @@ loadCSV() {
     char *tokens[MAX_TOKENS];
     char record[MAX_PAGE_SIZE];
     printf("-------------------------------------\n");
-    int file_desc = PF_OpenFile(INDEX_NAME);
-        if (file_desc >= 0)
-        {
-            int pg_num = 0;
-            char* pg_buf;
-            // Unfix all pages
-            while(PF_GetNextPage(file_desc, &pg_num, &pg_buf) >= 0)
-            {
-                PF_UnfixPage(file_desc, pg_num, TRUE);
-            }
-            // Close the file
-            checkerr(PF_CloseFile(file_desc));
-            // Delete the existing file
-            checkerr(PF_DestroyFile(INDEX_NAME));
-            // Destroy the index
-            checkerr(AM_DestroyIndex(INDEX_NAME, 0));
-        }
-    int indexFD = PF_OpenFile(INDEX_NAME);
-    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);
-    if (index != AME_OK)
-    {
-        PF_PrintError();
-        printf("Error: Could not create index\n");
-        exit(EXIT_FAILURE);
-    }
+    // int file_desc = PF_OpenFile(INDEX_NAME);
+    // printf("Opened file %d\n", file_desc);
+    // if (file_desc >= 0)
+    // {
+    //     int pg_num = 0;
+    //     char* pg_buf;
+    //     // Unfix all pages
+    //     while(PF_GetNextPage(file_desc, &pg_num, &pg_buf) >= 0)
+    //     {
+    //         PF_UnfixPage(file_desc, pg_num, TRUE);
+    //     }
+    //     printf("Unfixed all pages\n");
+    //     // Close the file
+    //     checkerr(PF_CloseFile(file_desc));
+    //     // Delete the existing file
+    //     checkerr(PF_DestroyFile(INDEX_NAME));
+    //     // Destroy the index
+    //     checkerr(AM_DestroyIndex(INDEX_NAME, 0));
+    // }
+    // printf("Deleted pre exsistng index\n");
+    // int indexFD = PF_OpenFile(INDEX_NAME);
+    // printf("Opened index file %s\n", INDEX_NAME);
+    // int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);
+    // printf("Created index %d\n", index);
+    // if (index != AME_OK)
+    // {
+    //     PF_PrintError();
+    //     printf("Error: Could not create index\n");
+    //     exit(EXIT_FAILURE);
+    // }
     //printf("Created index %s\n", INDEX_NAME);
     while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
         int n = split(line, ",", tokens);
@@ -148,7 +153,7 @@ loadCSV() {
     fclose(fp);
     Table_Close(tbl);
 // close the index file
-    checkerr(PF_CloseFile(indexFD));
+
     return sch;
 }
 
