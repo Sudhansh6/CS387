@@ -20,15 +20,15 @@ printRow(void *callbackObj, RecId rid, byte *row, int len) {
     for (int i = 0; i < schema->numColumns; i++) {
         switch (schema->columns[i]->type) {
             case VARCHAR:
-                cur += DecodeCString(cursor, buf, len) + 2;
+                cur += DecodeCString(cursor + cur, buf, len) + 2;
                 printf("%s", buf);
                 break;
             case INT:
-                printf("%d", DecodeInt(cursor));
+                printf("%d", DecodeInt(cursor + cur));
                 cur += 4;
                 break;
             case LONG:
-                printf("%lld", DecodeLong(cursor));
+                printf("%lld", DecodeLong(cursor + cur));
                 cur += 4;
                 break;
             default:
@@ -36,7 +36,7 @@ printRow(void *callbackObj, RecId rid, byte *row, int len) {
                 exit(1);
         }
         if (i < schema->numColumns - 1) {
-            printf(",");
+            printf(", ");
         }
     }
     printf("\n");
@@ -60,8 +60,8 @@ index_scan(Table *tbl, Schema *schema, int indexFD, int op, int value) {
    int scanDesc = AM_OpenIndexScan(indexFD, 'i', 4, op, (char*) &value);
    int rid = AM_FindNextEntry(scanDesc);
    while(rid != AME_EOF){
-       byte *record = malloc(tbl -> max_len);
-       int len = tbl ->  max_len;
+       byte *record = malloc(PF_PAGE_SIZE);
+       int len = PF_PAGE_SIZE;
        Table_Get(tbl, rid, record, len);
        printRow(schema, rid, record, len);
        free(record);
