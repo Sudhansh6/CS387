@@ -1,0 +1,27 @@
+Hitesh 190050093
+Sudhansh 190050118
+
+References - 
+The documents given in the reference folder.
+
+Individual Contribution - 
+Hitesh - Part 1 and Part 2; README
+Sudhansh - Part 2 and Part3; Part 1 debugging
+
+Writeup of execution - 
+- Ensure that you run make inside the amlayer and the pflayer folder
+- Run the make file in the dblayer folder
+- Load the database using `./loaddb`
+- Ensure that you have data.csv in the dblayer folder
+- To run queries on the database, use `./dumpdb i op value`
+    where op refers to the operation
+    value refers to the query value
+- The operator can be one of the following
+    ALL 0
+    EQUAL 1
+    LESS_THAN 2
+    GREATER_THAN 3
+    LESS_THAN_EQUAL 4
+    GREATER_THAN_EQUAL 5
+    NOT_EQUAL 6
+- To run a sequential scan on the database, use `./dumpdb s`
