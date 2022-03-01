@@ -110,6 +110,7 @@ Table_Close(Table *tbl) {
             exit(EXIT_FAILURE);
         }
         pagenum++;
+        
         // int page_err = PF_GetNextPage(tbl->fd, &pagenum, &pageBuf);
         // if(page_err < 0){
         //     PF_PrintError();
@@ -137,27 +138,52 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
 
     // Get the current page
     char *temp_buff;
-    if(tbl -> curr_page == -1){
-        int pag_err = PF_AllocPage(tbl->fd, &tbl->curr_page, &temp_buff);
-        printf("Page is allocated with page num %d\n", tbl->curr_page);
-        if(pag_err < 0){
-            PF_PrintError();
-            printf("Error in Getting the page %d\n", tbl->curr_page);
-            exit(EXIT_FAILURE);
-        }
-        tbl -> curr_page++;
-    }
-    printf("Allocated or Got the current page\n");
-   
-    printf("Record is %d bytes\n", len);
-    printf("Record is %s\n", record);
-    int err = PF_GetFirstPage(tbl->fd, &tbl->curr_page, &temp_buff);
-    printf("Buffer is %d\n", temp_buff);
-    if(err < 0){
+    int page_err = PF_GetThisPage(tbl->fd, tbl->curr_page, &temp_buff);
+    if(page_err < 0){
         PF_PrintError();
-        printf("Error in getting the first page %d\n", tbl->curr_page);
+        printf("Error in getting the current page %d\n", tbl->curr_page);
         exit(EXIT_FAILURE);
     }
+//    int free_len=getFreelen(temp_buff);
+    int free_len = getLen(tbl->numSlots, temp_buff);
+    if(free_len<len){
+        int new_page_err = PF_AllocPage(tbl->fd, &(tbl->curr_page), &temp_buff);
+        if(new_page_err < 0){
+            PF_PrintError();
+            printf("Error in allocating a new page\n");
+            exit(EXIT_FAILURE);
+        }
+        // Set pointer to empty Space
+        EncodeInt(PF_PAGE_SIZE, temp_buff);
+        // Set number of slots to page
+        setNumSlots(temp_buff, 0);
+    }
+    // Get the free slot pointer from the start of the page
+//    int free_slot = getFreeSlot(temp_buff);
+    // Get the offset of the free slot
+//    int free_slot_offset = getNthSlotOffset(free_slot, temp_buff);
+
+    // if(tbl -> curr_page == -1){
+    //     int pag_err = PF_AllocPage(tbl->fd, &tbl->curr_page, &temp_buff);
+    //     printf("Page is allocated with page num %d\n", tbl->curr_page);
+    //     if(pag_err < 0){
+    //         PF_PrintError();
+    //         printf("Error in Getting the page %d\n", tbl->curr_page);
+    //         exit(EXIT_FAILURE);
+    //     }
+    //     tbl -> curr_page++;
+    // }
+    // printf("Allocated or Got the current page\n");
+   
+    // printf("Record is %d bytes\n", len);
+    // printf("Record is %s\n", record);
+    // int err = PF_GetFirstPage(tbl->fd, &tbl->curr_page, &temp_buff);
+    // printf("Buffer is %d\n", temp_buff);
+    // if(err < 0){
+    //     PF_PrintError();
+    //     printf("Error in getting the first page %d\n", tbl->curr_page);
+    //     exit(EXIT_FAILURE);
+    // }
 
     // int curr_slots = getNumSlots(temp_buff);
 
