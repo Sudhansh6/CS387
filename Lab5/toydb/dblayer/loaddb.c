@@ -57,81 +57,98 @@ encode(Schema *sch, char **fields, byte *record, int spaceLeft) {
 
 Schema *
 loadCSV() {
-//    printf("Hello\n");
     // Open csv file, parse schema
     FILE *fp = fopen(CSV_NAME, "r");
     if (!fp) {
-	perror("data.csv could not be opened");
+	    perror("data.csv could not be opened");
         exit(EXIT_FAILURE);
     }
 
     char buf[MAX_LINE_LEN];
     char *line = fgets(buf, MAX_LINE_LEN, fp);
+
     if (line == NULL) {
-	fprintf(stderr, "Unable to read data.csv\n");
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "Unable to read data.csv\n");
+        exit(EXIT_FAILURE);
     }
-//    printf("Hi\n");
+
     // Open main db file
     Schema *sch = parseSchema(line);
     Table *tbl;
-//    printf("Hi\n");
+
    //UNIMPLEMENTED;
     int tbl_err = Table_Open(DB_NAME, sch, true, &tbl);
-    printf("Table is succesfully Opened\n");
     if(tbl_err < 0){
         PF_PrintError();
         printf("Error: Could not open table %s\n", DB_NAME);
         exit(EXIT_FAILURE);
     }
-    
-    int indexFD = tbl->fd;
     printf("Opened table %s\n", DB_NAME);
 
     char *tokens[MAX_TOKENS];
     char record[MAX_PAGE_SIZE];
     printf("-------------------------------------\n");
-    int count_temp=0;
-    // while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
-    //     int n = split(line, ",", tokens);
-    //     assert (n == sch -> numColumns);
-    //     int len = encode(sch, tokens, record, sizeof(record));
-    //     RecId rid;
-    //     printf("%d,%s\n", n, sch->columns[1]->name);
+    int file_desc = PF_OpenFile(INDEX_NAME);
+        if (file_desc >= 0)
+        {
+            int pg_num = 0;
+            char* pg_buf;
+            // Unfix all pages
+            while(PF_GetNextPage(file_desc, &pg_num, &pg_buf) >= 0)
+            {
+                PF_UnfixPage(file_desc, pg_num, TRUE);
+            }
+            // Close the file
+            checkerr(PF_CloseFile(file_desc));
+            // Delete the existing file
+            checkerr(PF_DestroyFile(INDEX_NAME));
+            // Destroy the index
+            checkerr(AM_DestroyIndex(INDEX_NAME, 0));
+        }
+    int indexFD = PF_OpenFile(INDEX_NAME);
+    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);
+    if (index != AME_OK)
+    {
+        PF_PrintError();
+        printf("Error: Could not create index\n");
+        exit(EXIT_FAILURE);
+    }
+    //printf("Created index %s\n", INDEX_NAME);
+    while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
+        int n = split(line, ",", tokens);
+        assert (n == sch -> numColumns);
+        int len = encode(sch, tokens, record, sizeof(record));
+        RecId rid;
+        printf("%d, %s\n", n, sch->columns[1]->name);
 
-    // //    UNIMPLEMENTED;
-    //     int rid_err = Table_Insert(tbl, record, len, &rid);
-    //     if(rid_err < 0){
-    //         PF_PrintError();
-    //         printf("Error: Could not insert record\n");
-    //         exit(EXIT_FAILURE);
-    //     }
+    //    UNIMPLEMENTED;
+        int rid_err = Table_Insert(tbl, record, len, &rid);
+        if(rid_err < 0){
+            PF_PrintError();
+            printf("Error: Could not insert record\n");
+            exit(EXIT_FAILURE);
+        }
         
-    //     printf("%d,RID, %s\n", rid, tokens[0]);
+        printf("%d,RID, %s\n", rid, tokens[0]);
 
-    //     // Indexing on the population column 
-    //     int population = atoi(tokens[2]);
-
-    // //    UNIMPLEMENTED;
-    //     // Use the population field as the field to index on
-    //     // if(count_temp>1){
-    //     //     int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
-    //     //     if(index_err < 0){
-    //     //         PF_PrintError();
-    //     //         printf("Error: Could not insert index\n");
-    //     //         exit(EXIT_FAILURE);
-    //     //     }
-    //     // }
-    // //    checkerr(err);
-    //     count_temp++;
-    // }
+        //    UNIMPLEMENTED;
+        // Indexing on the population column 
+        
+        // Use the population field as the field to index on
+        
+        // int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
+        // if(index_err < 0){
+        //     PF_PrintError();
+        //     printf("Error: Could not insert index\n");
+        //     exit(EXIT_FAILURE);
+        // }
+        
+        
+    }
     fclose(fp);
     Table_Close(tbl);
-    printf("Table is succesfully Closed\n");
-    printf("This id the index %d \n",indexFD);
-    indexFD=tbl->fd;
-    int err = PF_CloseFile(indexFD);
-    checkerr(err);
+// close the index file
+    checkerr(PF_CloseFile(indexFD));
     return sch;
 }
 

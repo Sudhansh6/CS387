@@ -1,7 +1,7 @@
 # Uncomment to enable 'American Fuzzy Lop' for fuzz testing
 #CC=afl-clang
 
-CC=cc
+CC=cc -target x86_64-apple-darwin20.3.0
 CFLAGS = -g
 #PUBLICDIR= /usr0/cs564/public/project
 SRC= buf.c hash.c pf.c

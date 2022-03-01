@@ -45,7 +45,6 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
     // Create the file
     PF_Init();
     int new_file = PF_CreateFile(dbname);
-    printf("New Page file is created\n");
     if (new_file < 0) {
         PF_PrintError();
         printf("Error in creating the file %s\n", dbname);
@@ -54,20 +53,6 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
     
     // Open the file
     int open_file = PF_OpenFile(dbname);
-    printf("File is opened,%d\n",open_file);
-    if (open_file < 0) {
-        PF_PrintError();
-        printf("Error in opening the file %s\n", dbname);
-        return open_file;
-    }
-    int close_file = PF_CloseFile(open_file);
-    printf("File is closed,%d\n",close_file);
-    if(close_file<0){
-        PF_PrintError();
-        printf("Error in closing the file %s\n", dbname);
-        return close_file;
-    }
-    open_file = PF_OpenFile(dbname);
     printf("File is opened,%d\n",open_file);
     if (open_file < 0) {
         PF_PrintError();
@@ -94,10 +79,11 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
     table->numSlots = 0;
     table->curr_page = 0;
     *ptable = table;
+    table->max_len = 0;
 
-    printf("Table is returned\n");
-    char * pageBuf;
-    int first_err= PF_AllocPage(open_file, &(table->curr_page), &pageBuf);
+    // Allocating first page
+    char *pageBuf;
+    int first_page = PF_AllocPage(open_file, &(table->curr_page), &pageBuf);
     printf("First Page is allocated\n");
     // Set pointer to empty page
     EncodeInt(PF_PAGE_SIZE, pageBuf);
@@ -114,7 +100,6 @@ Table_Close(Table *tbl) {
     //UNIMPLEMENTED;
 
     // Unfix any dirty pages, close file.
-
 
     // Close the file
     printf("Closing the file, %d\n",tbl->fd);

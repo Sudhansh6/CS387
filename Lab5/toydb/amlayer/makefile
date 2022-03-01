@@ -1,5 +1,4 @@
-
-CC=cc
+CC=cc -target x86_64-apple-darwin20.3.0
 CFLAGS = -g
 
 OBJS=am.o amfns.o amsearch.o aminsert.o amstack.o amglobals.o amscan.o amprint.o misc.o
