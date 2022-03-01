@@ -80,6 +80,7 @@ main(int argc, char **argv) {
     if (argc == 2 && *(argv[1]) == 's') {
         // invoke Table_Scan with printRow, which will be invoked for each row in the table.
         Table_Scan(tbl, schema, printRow);
+        
         printf("Output printed\n");
     } else {
 	// index scan by default
