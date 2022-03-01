@@ -146,6 +146,7 @@ loadCSV() {
         int index_err = AM_InsertEntry(indexFD, 'i', 4, (char*)&population, rid);
         checkerr(index_err);       
     }
+    printf("-------------------------------------\n");
     fclose(fp);
     Table_Close(tbl);
 // close the index file
