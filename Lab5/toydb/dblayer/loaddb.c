@@ -107,10 +107,13 @@ loadCSV() {
         checkerr(PF_DestroyFile(INDEX_NAME));
     }
     printf("Deleted pre exsistng index\n");
-    int indexFD = PF_OpenFile(INDEX_NAME);
-    printf("Opened index file %s\n", INDEX_NAME);
     int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);
     printf("Created index %d\n", index);
+   
+    int indexFD = PF_OpenFile(INDEX_NAME);
+    printf("Opened index file %s\n", INDEX_NAME);
+    
+
     if (index != AME_OK)
     {
         PF_PrintError();
