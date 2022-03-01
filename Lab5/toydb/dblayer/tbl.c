@@ -180,7 +180,7 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
     printf("Slot offset is %d\n", curr_slot_offset);
 
     PF_UnfixPage(tbl->fd, tbl->curr_page, TRUE);
-    *rid=tbl->numSlots+(tbl->curr_page<<16);
+    *rid = tbl->numSlots+(tbl->curr_page<<16);
     return 0;
 }
 
