@@ -142,15 +142,18 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
 
 
     int free_len = getFreelen(temp_buff);
+    
     if(free_len < len + 4){
-
+        int *new_page;
         PF_UnfixPage(tbl->fd, tbl->curr_page, TRUE);
-        int new_page_err = PF_AllocPage(tbl->fd, &(tbl->curr_page), &temp_buff);
+        int new_page_err = PF_AllocPage(tbl->fd, new_page, &temp_buff);
         checkerr(new_page_err);
         // Set pointer to empty Space
         EncodeShort(PF_PAGE_SIZE, temp_buff);
         // Set number of slots to page
         setNumSlots(temp_buff, 1);
+        
+        tbl->curr_page = *new_page;
         PF_UnfixPage(tbl->fd, tbl->curr_page, TRUE);
     }
 
@@ -173,7 +176,7 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
     EncodeInt(free_slot, temp_buff+curr_slot_offset);
     // printf("free Slot is %d\n", free_slot);
     // printf("Slot offset is %d\n", curr_slot_offset);
-
+    // printf("File desc, curr page are, %d %d",tbl->fd, tbl->curr_page);
     PF_UnfixPage(tbl->fd, tbl->curr_page, TRUE);
     *rid=tbl->numSlots+(tbl->curr_page<<16);
     return 0;
@@ -250,6 +253,7 @@ Table_Scan(Table *tbl, void *callbackObj, ReadFunc callbackfn) {
     while(getPage >= 0){
         int slots = getNumSlots(*buffer);
         printf("Number of slots in page %d is %d\n", *pageNo, slots);
+        printf("Free len in Page is %d\n", getFreelen(*buffer));
         //for each record, do callback function
         for(int i = 1; i <= slots; i++){
             //get offset for that i
