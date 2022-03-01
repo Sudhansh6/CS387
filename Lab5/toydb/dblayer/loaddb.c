@@ -54,45 +54,10 @@ encode(Schema *sch, char **fields, byte *record, int spaceLeft) {
     }
     return totalBytes;
 }
-int decode(Schema *sch, byte *record, char **fields){
-    //UNIMPLEMENTED;
-    // for each field
-    //    switch corresponding schema type is
-    //        VARCHAR : DecodeCString
-    //        INT : DecodeInt
-    //        LONG: DecodeLong
-    // return the total number of bytes decoded from record
-    int totalBytes = 0;
-    int i;
-    int len=PF_PAGE_SIZE;
-    char buf[len];
-    int cur = 0;
-    byte *cursor = record;
-    for(i = 0; i < sch->numColumns; i++){
-        switch(sch->columns[i]->type){
-           switch (schema->columns[i]->type) {
-            case VARCHAR:
-                cur += DecodeCString(cursor, buf, len) + 2;
-                printf("%s", buf);
-                break;
-            case INT:
-                printf("%d", DecodeInt(cursor));
-                cur += 4;
-                break;
-            case LONG:
-                printf("%lld", DecodeLong(cursor));
-                cur += 4;
-                break;
-            default:
-                printf("Error: Unknown type %d\n", schema->columns[i]->type);
-                exit(1);
-        }
-    }
-    printf("\n");
-    return totalBytes;
-}
+
 Schema *
-loadCSV() {
+loadCSV() 
+{
     // Open csv file, parse schema
     FILE *fp = fopen(CSV_NAME, "r");
     if (!fp) {
@@ -139,7 +104,8 @@ loadCSV() {
         // Delete the existing file
         checkerr(PF_DestroyFile(INDEX_NAME));
     }
-    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);   
+    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4); 
+    checkerr(index);  
     int indexFD = PF_OpenFile(INDEX_NAME);    
 
     if (index != AME_OK)
@@ -163,14 +129,14 @@ loadCSV() {
         
         // Use the population field as the field to index on
         int population = atoi(tokens[2]);
-        int index_err = AM_InsertEntry(indexFD, 'i', 4, (char*)&population, rid);
+        int index_err = AM_InsertEntry(indexFD, 'i', 4, (char *)(&population), rid);
         checkerr(index_err); 
-        printf("%s, %s, %d\n", tokens[0], tokens[1], population);   
+        // printf("%s, %s, %d\n", tokens[0], tokens[1], population);   
     }
-//    printf("-------------------------------------\n");
+   printf("-------------------------------------\n");
     fclose(fp);
     Table_Close(tbl);
-    PF_CloseFile(file_desc);
+    PF_CloseFile(indexFD);
     return sch;
 }
 
