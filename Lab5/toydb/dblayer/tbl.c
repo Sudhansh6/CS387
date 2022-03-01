@@ -80,6 +80,7 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
     table->numSlots = 0;
     table->curr_page = 0;
     *ptable = table;
+    table->max_len = 0;
 
     // Allocating first page
     char *pageBuf;
@@ -145,7 +146,7 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
     }
 //    int free_len=getFreelen(temp_buff);
     int free_len = getLen(tbl->numSlots, temp_buff);
-    if(free_len<len){
+    if(free_len < len){
         int new_page_err = PF_AllocPage(tbl->fd, &(tbl->curr_page), &temp_buff);
         if(new_page_err < 0){
             PF_PrintError();

@@ -83,7 +83,7 @@ loadCSV() {
         printf("Error: Could not open table %s\n", DB_NAME);
         exit(EXIT_FAILURE);
     }
-    int indexFD = tbl->fd;
+
     printf("Opened table %s\n", DB_NAME);
 
     char *tokens[MAX_TOKENS];
@@ -94,7 +94,7 @@ loadCSV() {
         assert (n == sch -> numColumns);
         int len = encode(sch, tokens, record, sizeof(record));
         RecId rid;
-        printf("%d,%s\n", n, sch->columns[1]->name);
+        printf("%d, %s\n", n, sch->columns[1]->name);
 
     //    UNIMPLEMENTED;
         int rid_err = Table_Insert(tbl, record, len, &rid);
@@ -106,23 +106,49 @@ loadCSV() {
         
         printf("%d %s\n", rid, tokens[0]);
 
-        // Indexing on the population column 
-        int population = atoi(tokens[2]);
-
         //    UNIMPLEMENTED;
+        // Indexing on the population column 
+        
         // Use the population field as the field to index on
-        int index_err = AM_InsertEntry(indexFD, 'i', 4, population, rid);
+
+        int file_desc = PF_OpenFile(INDEX_NAME);
+        if (file_desc >= 0)
+        {
+            int pg_num = 0;
+            char* pg_buf;
+            // Unfix all pages
+            while(PF_GetNextPage(file_desc, &pg_num, &pg_buf) >= 0)
+            {
+                PF_UnfixPage(file_desc, pg_num, TRUE);
+            }
+            // Close the file
+            checkerr(PF_CloseFile(file_desc));
+            // Delete the existing file
+            checkerr(PF_DestroyFile(INDEX_NAME));
+            // Destroy the index
+            checkerr(AM_DestroyIndex(INDEX_NAME, 0));
+        }
+
+        int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);
+        if (index != AME_OK)
+        {
+            PF_PrintError();
+            printf("Error: Could not create index\n");
+            exit(EXIT_FAILURE);
+        }
+
+        int indexFD = PF_OpenFile(INDEX_NAME);
+        int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
         if(index_err < 0){
             PF_PrintError();
             printf("Error: Could not insert index\n");
             exit(EXIT_FAILURE);
         }
-
+        // close the index file
+        checkerr(PF_CloseFile(indexFD));
     }
     fclose(fp);
     Table_Close(tbl);
-    int err = PF_CloseFile(indexFD);
-    checkerr(err);
     return sch;
 }
 
