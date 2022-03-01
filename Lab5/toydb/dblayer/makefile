@@ -1,11 +1,14 @@
-CC=cc 
+CC=cc -target x86_64-apple-darwin20.3.0
 CFLAGS = -g
 OBJS=tbl.o codec.o util.o ../pflayer/pflayer.a ../amlayer/amlayer.a
 
-all: loaddb 
+all: loaddb dumpdb
 
 loaddb : loaddb.o $(OBJS) 
 	$(CC) $(CFLAGS) -o loaddb loaddb.o $(OBJS)
+
+dumpdb : dumpdb.o $(OBJS) 
+	$(CC) $(CFLAGS) -o dumpdb dumpdb.o $(OBJS)
 
 loaddb.o : loaddb.c tbl.h codec.h util.h
 	$(CC) -c $(CFLAGS) loaddb.c

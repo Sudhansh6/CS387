@@ -14,18 +14,22 @@ void
 printRow(void *callbackObj, RecId rid, byte *row, int len) {
     Schema *schema = (Schema *) callbackObj;
     byte *cursor = row;
-
+    char buf[len];
+    int cur = 0;
    // UNIMPLEMENTED;
     for (int i = 0; i < schema->numColumns; i++) {
         switch (schema->columns[i]->type) {
             case VARCHAR:
-                printf("%s", DecodeCString(cursor, len, NULL));
+                cur += DecodeCString(cursor, buf, len) + 2;
+                printf("%s", buf);
                 break;
             case INT:
                 printf("%d", DecodeInt(cursor));
+                cur += 4;
                 break;
             case LONG:
-                printf("%ld", DecodeLong(cursor));
+                printf("%lld", DecodeLong(cursor));
+                cur += 4;
                 break;
             default:
                 printf("Error: Unknown type %d\n", schema->columns[i]->type);
@@ -53,11 +57,11 @@ index_scan(Table *tbl, Schema *schema, int indexFD, int op, int value) {
     }
     close index ...
     */
-   int scanDesc = AM_OpenIndexScan(indexFD, 'i', 4, op, value);
+   int scanDesc = AM_OpenIndexScan(indexFD, 'i', 4, op, (char*) &value);
    int rid = AM_FindNextEntry(scanDesc);
    while(rid != AME_EOF){
-       byte *record = malloc(MAX_PAGE_SIZE);
-       int len = MAX_PAGE_SIZE;
+       byte *record = malloc(tbl -> max_len);
+       int len = tbl ->  max_len;
        Table_Get(tbl, rid, record, len);
        printRow(schema, rid, record, len);
        free(record);
@@ -71,11 +75,12 @@ main(int argc, char **argv) {
     char *schemaTxt = "Country:varchar, Capital:varchar, Population:int";
     Schema *schema = parseSchema(schemaTxt);
     Table *tbl;
-    checkerror(Table_Open(DB_NAME, schema, false, &tbl));
+    Table_Open(DB_NAME, schema, false, &tbl);
     //UNIMPLEMENTED;
     if (argc == 2 && *(argv[1]) == 's') {
         // invoke Table_Scan with printRow, which will be invoked for each row in the table.
         Table_Scan(tbl, schema, printRow);
+        printf("Output printed\n");
     } else {
 	// index scan by default
         int indexFD = PF_OpenFile(INDEX_NAME);
