@@ -30,7 +30,6 @@ typedef struct {
     int numSlots;
 //    int *freeSpace;
     int curr_page;
-    int max_len;
 //    int next_page;
     RecId *rowoff; // array of offsets to the start of each row
 } Table ;

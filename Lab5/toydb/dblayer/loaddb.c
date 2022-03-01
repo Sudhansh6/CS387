@@ -120,13 +120,11 @@ loadCSV() {
         printf("Error: Could not open table %s\n", DB_NAME);
         exit(EXIT_FAILURE);
     }
-    printf("Opened table %s\n", DB_NAME);
 
     char *tokens[MAX_TOKENS];
     char record[MAX_PAGE_SIZE];
-    printf("-------------------------------------\n");
+
     int file_desc = PF_OpenFile(INDEX_NAME);
-    printf("Opened file %d\n", file_desc);
     if (file_desc >= 0)
     {
         int pg_num = 0;
@@ -136,19 +134,13 @@ loadCSV() {
         {
             PF_UnfixPage(file_desc, pg_num, TRUE);
         }
-        printf("Unfixed all pages\n");
         // Close the file
         checkerr(PF_CloseFile(file_desc));
         // Delete the existing file
         checkerr(PF_DestroyFile(INDEX_NAME));
     }
-    printf("Deleted pre exsistng index\n");
-    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);
-    printf("Created index %d\n", index);
-   
-    int indexFD = PF_OpenFile(INDEX_NAME);
-    printf("Opened index file %s\n", INDEX_NAME);
-    
+    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);   
+    int indexFD = PF_OpenFile(INDEX_NAME);    
 
     if (index != AME_OK)
     {
@@ -156,43 +148,33 @@ loadCSV() {
         printf("Error: Could not create index\n");
         exit(EXIT_FAILURE);
     }
-    printf("Created index %s\n", INDEX_NAME);
-
+   
     while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
         int n = split(line, ",", tokens);
         assert (n == sch -> numColumns);
         int len = encode(sch, tokens, record, sizeof(record));
-        if (len > tbl-> max_len)
-        {
-            tbl-> max_len = len;
-        }
         RecId rid;
 
     //    UNIMPLEMENTED;
         int rid_err = Table_Insert(tbl, record, len, &rid);
         checkerr(rid_err);
-        
-        printf("%d, RID, %s\n", rid, tokens[0]);
-
         //    UNIMPLEMENTED;
         // Indexing on the population column 
         
         // Use the population field as the field to index on
         int population = atoi(tokens[2]);
         int index_err = AM_InsertEntry(indexFD, 'i', 4, (char*)&population, rid);
-        checkerr(index_err);       
+        checkerr(index_err); 
+        printf("%s, %s, %d\n", tokens[0], tokens[1], population);   
     }
-    printf("-------------------------------------\n");
-    printf("File descriptors: %d, %d\n", tbl->fd, indexFD);
+//    printf("-------------------------------------\n");
     fclose(fp);
     Table_Close(tbl);
-// close the index file
-
+    PF_CloseFile(file_desc);
     return sch;
 }
 
 int
 main() {
-    printf("Loading data.csv\n");
     loadCSV();
 }
