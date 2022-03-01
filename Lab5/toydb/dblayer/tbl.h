@@ -27,10 +27,7 @@ typedef struct {
     Schema *schema;
     int fd;
     char *dbname;
-    int numSlots;
-//    int *freeSpace;
     int curr_page;
-//    int next_page;
     RecId *rowoff; // array of offsets to the start of each row
 } Table ;
 
