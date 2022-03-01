@@ -84,45 +84,52 @@ loadCSV() {
         printf("Error: Could not open table %s\n", DB_NAME);
         exit(EXIT_FAILURE);
     }
+    
     int indexFD = tbl->fd;
     printf("Opened table %s\n", DB_NAME);
 
     char *tokens[MAX_TOKENS];
     char record[MAX_PAGE_SIZE];
     printf("-------------------------------------\n");
-    while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
-        int n = split(line, ",", tokens);
-        assert (n == sch -> numColumns);
-        int len = encode(sch, tokens, record, sizeof(record));
-        RecId rid;
-        printf("%d,%s\n", n, sch->columns[1]->name);
+    int count_temp=0;
+    // while ((line = fgets(buf, MAX_LINE_LEN, fp)) != NULL) {
+    //     int n = split(line, ",", tokens);
+    //     assert (n == sch -> numColumns);
+    //     int len = encode(sch, tokens, record, sizeof(record));
+    //     RecId rid;
+    //     printf("%d,%s\n", n, sch->columns[1]->name);
 
-    //    UNIMPLEMENTED;
-        int rid_err = Table_Insert(tbl, record, len, &rid);
-        if(rid_err < 0){
-            PF_PrintError();
-            printf("Error: Could not insert record\n");
-            exit(EXIT_FAILURE);
-        }
+    // //    UNIMPLEMENTED;
+    //     int rid_err = Table_Insert(tbl, record, len, &rid);
+    //     if(rid_err < 0){
+    //         PF_PrintError();
+    //         printf("Error: Could not insert record\n");
+    //         exit(EXIT_FAILURE);
+    //     }
         
-        printf("%d %s\n", rid, tokens[0]);
+    //     printf("%d,RID, %s\n", rid, tokens[0]);
 
-        // Indexing on the population column 
-        int population = atoi(tokens[2]);
+    //     // Indexing on the population column 
+    //     int population = atoi(tokens[2]);
 
-    //    UNIMPLEMENTED;
-        // Use the population field as the field to index on
-        
-        int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
-        if(index_err < 0){
-            PF_PrintError();
-            printf("Error: Could not insert index\n");
-            exit(EXIT_FAILURE);
-        }
-    //    checkerr(err);
-    }
+    // //    UNIMPLEMENTED;
+    //     // Use the population field as the field to index on
+    //     // if(count_temp>1){
+    //     //     int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
+    //     //     if(index_err < 0){
+    //     //         PF_PrintError();
+    //     //         printf("Error: Could not insert index\n");
+    //     //         exit(EXIT_FAILURE);
+    //     //     }
+    //     // }
+    // //    checkerr(err);
+    //     count_temp++;
+    // }
     fclose(fp);
     Table_Close(tbl);
+    printf("Table is succesfully Closed\n");
+    printf("This id the index %d \n",indexFD);
+    indexFD=tbl->fd;
     int err = PF_CloseFile(indexFD);
     checkerr(err);
     return sch;
