@@ -14,7 +14,7 @@ int  getNumSlots(byte *pageBuf);
 void setNumSlots(byte *pageBuf, int nslots); 
 int  getNthSlotOffset(int slot, char* pageBuf); 
 
-
+// Check for github
 /**
    Opens a paged file, creating one if it doesn't exist, and optionally
    overwriting it.
@@ -79,7 +79,7 @@ Table_Open(char *dbname, Schema *schema, bool overwrite, Table **ptable)
     
     table->dbname = dbname;
     table->numSlots = 0;
-    table->curr_page = 0;
+    table->curr_page = -1;
     *ptable = table;
 
     printf("Table is returned\n");
@@ -137,7 +137,6 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
 
     // Get the current page
     char *temp_buff;
-    tbl->curr_page = PF_GetThisPage(tbl->fd, tbl->curr_page, &temp_buff);
     if(tbl -> curr_page == -1){
         int pag_err = PF_AllocPage(tbl->fd, &tbl->curr_page, &temp_buff);
         printf("Page is allocated with page num %d\n", tbl->curr_page);
@@ -146,31 +145,39 @@ Table_Insert(Table *tbl, byte *record, int len, RecId *rid) {
             printf("Error in Getting the page %d\n", tbl->curr_page);
             exit(EXIT_FAILURE);
         }
+        tbl -> curr_page++;
     }
     printf("Allocated or Got the current page\n");
    
     printf("Record is %d bytes\n", len);
     printf("Record is %s\n", record);
-    int err=PF_GetFirstPage(tbl->fd, &tbl->curr_page,&temp_buff);
+    int err = PF_GetFirstPage(tbl->fd, &tbl->curr_page, &temp_buff);
     printf("Buffer is %d\n", temp_buff);
-    int curr_slots=getNumSlots(temp_buff);
+    if(err < 0){
+        PF_PrintError();
+        printf("Error in getting the first page %d\n", tbl->curr_page);
+        exit(EXIT_FAILURE);
+    }
 
-    int out1= DecodeInt(temp_buff);
-    printf("Decoded int is %d\n", out1);
-    int out2= getNumSlots(temp_buff);
-    printf("Number of slots is  %d\n", out2);
-    int curr_freeptr=out1;
-    //We need to allocate a slot with the given record
-    int new_freeptr=curr_freeptr-len;
-    //Allocate memory into the page
-    memcpy(temp_buff+new_freeptr, record, len);
-    //Update the slot information in the page header
-    setNumSlots(temp_buff, curr_slots+1);
-    //Update the free pointer in the page header
-    EncodeInt(new_freeptr, temp_buff);
-    //Update the slot information in the slot
-    int curr_sltptr=4+4+curr_slots*4;
-    EncodeInt(new_freeptr, temp_buff+curr_sltptr);
+    // int curr_slots = getNumSlots(temp_buff);
+
+    // int out1 = DecodeInt(temp_buff);
+    // printf("Decoded int is %d\n", out1);
+    // int out2 = getNumSlots(temp_buff);
+    // printf("Number of slots is  %d\n", out2);
+
+    // int curr_freeptr=out1;
+    // //We need to allocate a slot with the given record
+    // int new_freeptr=curr_freeptr-len;
+    // //Allocate memory into the page
+    // memcpy(temp_buff+new_freeptr, record, len);
+    // //Update the slot information in the page header
+    // setNumSlots(temp_buff, curr_slots+1);
+    // //Update the free pointer in the page header
+    // EncodeInt(new_freeptr, temp_buff);
+    // //Update the slot information in the slot
+    // int curr_sltptr=4+4+curr_slots*4;
+    // EncodeInt(new_freeptr, temp_buff+curr_sltptr);
     //Update the free pointer in the slot
 
     // int free_space=0;

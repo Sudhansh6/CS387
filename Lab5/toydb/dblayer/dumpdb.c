@@ -64,7 +64,7 @@ index_scan(Table *tbl, Schema *schema, int indexFD, int op, int value) {
 
 int
 main(int argc, char **argv) {
-    char *schemaTxt = "Country:varchar,Capital:varchar,Population:int";
+    char *schemaTxt = "Country:varchar, Capital:varchar, Population:int";
     Schema *schema = parseSchema(schemaTxt);
     Table *tbl;
 

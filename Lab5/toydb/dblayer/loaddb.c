@@ -96,9 +96,9 @@ loadCSV() {
         int len = encode(sch, tokens, record, sizeof(record));
         RecId rid;
         printf("%d,%s\n", n, sch->columns[1]->name);
-        
+
     //    UNIMPLEMENTED;
-        int rid_err =Table_Insert(tbl, record, len, &rid);
+        int rid_err = Table_Insert(tbl, record, len, &rid);
         if(rid_err < 0){
             PF_PrintError();
             printf("Error: Could not insert record\n");

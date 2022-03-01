@@ -88,8 +88,8 @@ EncodeCString(char *str, byte *bytes, int max_len) {
 	len = max_len - 2;
     }
     EncodeShort((short)len, bytes);
-    memcpy(bytes+2, str, len);
-    return len+2;
+    memcpy(bytes + 2, str, len);
+    return len + 2;
 }
 
 int

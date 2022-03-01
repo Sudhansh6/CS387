@@ -11,7 +11,6 @@ typedef char byte;
 typedef struct {
     char *name;
     int  type;  // one of VARCHAR, INT, LONG
-    int width; // width in bytes
 } ColumnDesc;
 
 // Class for schema
