@@ -150,6 +150,7 @@ loadCSV() {
         
         
     }
+    printf("-------------------------------------\n");
     fclose(fp);
     Table_Close(tbl);
 // close the index file
