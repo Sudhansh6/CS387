@@ -34,7 +34,6 @@ printRow(void *callbackObj, RecId rid, byte *row, int len) {
         if (i < schema->numColumns - 1) {
             printf(",");
         }
-        cursor += schema->columns[i]->width;
     }
     printf("\n");
 }
@@ -70,13 +69,13 @@ main(int argc, char **argv) {
 
     //UNIMPLEMENTED;
     if (argc == 2 && *(argv[1]) == 's') {
-	//UNIMPLEMENTED;
-	// invoke Table_Scan with printRow, which will be invoked for each row in the table.
+        // invoke Table_Scan with printRow, which will be invoked for each row in the table.
         Table_Scan(tbl, schema, printRow);
     } else {
 	// index scan by default
 	int indexFD = PF_OpenFile(INDEX_NAME);
 	checkerr(indexFD);
+
 
 	// Ask for populations less than 100000, then more than 100000. Together they should
 	// yield the complete database.

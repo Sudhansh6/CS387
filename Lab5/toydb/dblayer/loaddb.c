@@ -57,28 +57,27 @@ encode(Schema *sch, char **fields, byte *record, int spaceLeft) {
 
 Schema *
 loadCSV() {
-//    printf("Hello\n");
     // Open csv file, parse schema
     FILE *fp = fopen(CSV_NAME, "r");
     if (!fp) {
-	perror("data.csv could not be opened");
+	    perror("data.csv could not be opened");
         exit(EXIT_FAILURE);
     }
 
     char buf[MAX_LINE_LEN];
     char *line = fgets(buf, MAX_LINE_LEN, fp);
+
     if (line == NULL) {
-	fprintf(stderr, "Unable to read data.csv\n");
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "Unable to read data.csv\n");
+        exit(EXIT_FAILURE);
     }
-//    printf("Hi\n");
+
     // Open main db file
     Schema *sch = parseSchema(line);
     Table *tbl;
-//    printf("Hi\n");
+
    //UNIMPLEMENTED;
     int tbl_err = Table_Open(DB_NAME, sch, true, &tbl);
-    printf("Table is succesfully Opened\n");
     if(tbl_err < 0){
         PF_PrintError();
         printf("Error: Could not open table %s\n", DB_NAME);
@@ -110,16 +109,15 @@ loadCSV() {
         // Indexing on the population column 
         int population = atoi(tokens[2]);
 
-    //    UNIMPLEMENTED;
+        //    UNIMPLEMENTED;
         // Use the population field as the field to index on
-        
-        int index_err = AM_InsertEntry(indexFD, 'i', 4, tokens[2], rid);
+        int index_err = AM_InsertEntry(indexFD, 'i', 4, population, rid);
         if(index_err < 0){
             PF_PrintError();
             printf("Error: Could not insert index\n");
             exit(EXIT_FAILURE);
         }
-    //    checkerr(err);
+
     }
     fclose(fp);
     Table_Close(tbl);
