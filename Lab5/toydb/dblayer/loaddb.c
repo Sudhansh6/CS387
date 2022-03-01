@@ -56,7 +56,8 @@ encode(Schema *sch, char **fields, byte *record, int spaceLeft) {
 }
 
 Schema *
-loadCSV() {
+loadCSV() 
+{
     // Open csv file, parse schema
     FILE *fp = fopen(CSV_NAME, "r");
     if (!fp) {
@@ -103,7 +104,8 @@ loadCSV() {
         // Delete the existing file
         checkerr(PF_DestroyFile(INDEX_NAME));
     }
-    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4);   
+    int index = AM_CreateIndex(DB_NAME, 0, 'i', 4); 
+    checkerr(index);  
     int indexFD = PF_OpenFile(INDEX_NAME);    
 
     if (index != AME_OK)
@@ -127,14 +129,14 @@ loadCSV() {
         
         // Use the population field as the field to index on
         int population = atoi(tokens[2]);
-        int index_err = AM_InsertEntry(indexFD, 'i', 4, (char*)&population, rid);
+        int index_err = AM_InsertEntry(indexFD, 'i', 4, (char *)(&population), rid);
         checkerr(index_err); 
-        printf("%s, %s, %d\n", tokens[0], tokens[1], population);   
+        // printf("%s, %s, %d\n", tokens[0], tokens[1], population);   
     }
-//    printf("-------------------------------------\n");
+   printf("-------------------------------------\n");
     fclose(fp);
     Table_Close(tbl);
-    PF_CloseFile(file_desc);
+    PF_CloseFile(indexFD);
     return sch;
 }
 

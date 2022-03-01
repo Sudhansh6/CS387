@@ -57,8 +57,9 @@ index_scan(Table *tbl, Schema *schema, int indexFD, int op, int value) {
     }
     close index ...
     */
-   int scanDesc = AM_OpenIndexScan(indexFD, 'i', 4, op, (char*) &value);
+   int scanDesc = AM_OpenIndexScan(indexFD, 'i', 4, op, (char*) (&value));
    int rid = AM_FindNextEntry(scanDesc);
+ 
    while(rid != AME_EOF){
        byte *record = malloc(PF_PAGE_SIZE);
        int len = PF_PAGE_SIZE;
@@ -80,6 +81,7 @@ main(int argc, char **argv) {
     if (argc == 2 && *(argv[1]) == 's') {
         // invoke Table_Scan with printRow, which will be invoked for each row in the table.
         Table_Scan(tbl, schema, printRow);
+        
         printf("Output printed\n");
     } else {
 	// index scan by default
@@ -88,7 +90,7 @@ main(int argc, char **argv) {
         // Ask for populations less than 100000, then more than 100000. Together they should
         // yield the complete database.
         index_scan(tbl, schema, indexFD, LESS_THAN_EQUAL, 100000);
-        index_scan(tbl, schema, indexFD, GREATER_THAN, 100000);
+        // index_scan(tbl, schema, indexFD, GREATER_THAN, 100000);
     }
     Table_Close(tbl);
 }
