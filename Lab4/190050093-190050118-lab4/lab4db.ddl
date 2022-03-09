@@ -17,7 +17,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: attendance_constraint(); Type: FUNCTION; Schema: public; Owner: hiteshkumar
+-- Name: attendance_constraint(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE FUNCTION public.attendance_constraint() RETURNS trigger
@@ -38,10 +38,10 @@ CREATE FUNCTION public.attendance_constraint() RETURNS trigger
 	$$;
 
 
-ALTER FUNCTION public.attendance_constraint() OWNER TO hiteshkumar;
+ALTER FUNCTION public.attendance_constraint() OWNER TO postgres;
 
 --
--- Name: attendence_constraint(); Type: FUNCTION; Schema: public; Owner: hiteshkumar
+-- Name: attendence_constraint(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE FUNCTION public.attendence_constraint() RETURNS trigger
@@ -57,10 +57,10 @@ END
 $$;
 
 
-ALTER FUNCTION public.attendence_constraint() OWNER TO hiteshkumar;
+ALTER FUNCTION public.attendence_constraint() OWNER TO postgres;
 
 --
--- Name: stake_constraint(); Type: FUNCTION; Schema: public; Owner: hiteshkumar
+-- Name: stake_constraint(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE FUNCTION public.stake_constraint() RETURNS trigger
@@ -78,10 +78,10 @@ END
 $$;
 
 
-ALTER FUNCTION public.stake_constraint() OWNER TO hiteshkumar;
+ALTER FUNCTION public.stake_constraint() OWNER TO postgres;
 
 --
--- Name: stake_team_constraint(); Type: FUNCTION; Schema: public; Owner: hiteshkumar
+-- Name: stake_team_constraint(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE FUNCTION public.stake_team_constraint() RETURNS trigger
@@ -100,10 +100,10 @@ CREATE FUNCTION public.stake_team_constraint() RETURNS trigger
 	$$;
 
 
-ALTER FUNCTION public.stake_team_constraint() OWNER TO hiteshkumar;
+ALTER FUNCTION public.stake_team_constraint() OWNER TO postgres;
 
 --
--- Name: umpire_constraint(); Type: FUNCTION; Schema: public; Owner: hiteshkumar
+-- Name: umpire_constraint(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
 CREATE FUNCTION public.umpire_constraint() RETURNS trigger
@@ -121,14 +121,14 @@ END
 $$;
 
 
-ALTER FUNCTION public.umpire_constraint() OWNER TO hiteshkumar;
+ALTER FUNCTION public.umpire_constraint() OWNER TO postgres;
 
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: ball_by_ball; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: ball_by_ball; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.ball_by_ball (
@@ -148,10 +148,10 @@ CREATE TABLE public.ball_by_ball (
 );
 
 
-ALTER TABLE public.ball_by_ball OWNER TO hiteshkumar;
+ALTER TABLE public.ball_by_ball OWNER TO postgres;
 
 --
--- Name: match; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: match; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.match (
@@ -172,10 +172,10 @@ CREATE TABLE public.match (
 );
 
 
-ALTER TABLE public.match OWNER TO hiteshkumar;
+ALTER TABLE public.match OWNER TO postgres;
 
 --
--- Name: owner; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: owner; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.owner (
@@ -188,10 +188,10 @@ CREATE TABLE public.owner (
 );
 
 
-ALTER TABLE public.owner OWNER TO hiteshkumar;
+ALTER TABLE public.owner OWNER TO postgres;
 
 --
--- Name: player; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: player; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.player (
@@ -204,10 +204,10 @@ CREATE TABLE public.player (
 );
 
 
-ALTER TABLE public.player OWNER TO hiteshkumar;
+ALTER TABLE public.player OWNER TO postgres;
 
 --
--- Name: player_match; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: player_match; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.player_match (
@@ -220,10 +220,10 @@ CREATE TABLE public.player_match (
 );
 
 
-ALTER TABLE public.player_match OWNER TO hiteshkumar;
+ALTER TABLE public.player_match OWNER TO postgres;
 
 --
--- Name: team; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: team; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.team (
@@ -232,10 +232,10 @@ CREATE TABLE public.team (
 );
 
 
-ALTER TABLE public.team OWNER TO hiteshkumar;
+ALTER TABLE public.team OWNER TO postgres;
 
 --
--- Name: umpire; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: umpire; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.umpire (
@@ -245,10 +245,10 @@ CREATE TABLE public.umpire (
 );
 
 
-ALTER TABLE public.umpire OWNER TO hiteshkumar;
+ALTER TABLE public.umpire OWNER TO postgres;
 
 --
--- Name: umpire_match; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: umpire_match; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.umpire_match (
@@ -260,10 +260,10 @@ CREATE TABLE public.umpire_match (
 );
 
 
-ALTER TABLE public.umpire_match OWNER TO hiteshkumar;
+ALTER TABLE public.umpire_match OWNER TO postgres;
 
 --
--- Name: venue; Type: TABLE; Schema: public; Owner: hiteshkumar
+-- Name: venue; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.venue (
@@ -275,10 +275,10 @@ CREATE TABLE public.venue (
 );
 
 
-ALTER TABLE public.venue OWNER TO hiteshkumar;
+ALTER TABLE public.venue OWNER TO postgres;
 
 --
--- Name: ball_by_ball ball_by_ball_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: ball_by_ball ball_by_ball_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.ball_by_ball
@@ -286,7 +286,7 @@ ALTER TABLE ONLY public.ball_by_ball
 
 
 --
--- Name: match match_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -294,7 +294,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: owner owner_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: owner owner_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.owner
@@ -302,7 +302,7 @@ ALTER TABLE ONLY public.owner
 
 
 --
--- Name: player_match player_match_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: player_match player_match_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.player_match
@@ -310,7 +310,7 @@ ALTER TABLE ONLY public.player_match
 
 
 --
--- Name: player player_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: player player_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.player
@@ -318,7 +318,7 @@ ALTER TABLE ONLY public.player
 
 
 --
--- Name: team team_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: team team_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.team
@@ -326,7 +326,7 @@ ALTER TABLE ONLY public.team
 
 
 --
--- Name: umpire_match umpire_match_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: umpire_match umpire_match_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.umpire_match
@@ -334,7 +334,7 @@ ALTER TABLE ONLY public.umpire_match
 
 
 --
--- Name: umpire umpire_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: umpire umpire_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.umpire
@@ -342,7 +342,7 @@ ALTER TABLE ONLY public.umpire
 
 
 --
--- Name: venue venue_pkey; Type: CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: venue venue_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.venue
@@ -350,35 +350,35 @@ ALTER TABLE ONLY public.venue
 
 
 --
--- Name: match attendence_match; Type: TRIGGER; Schema: public; Owner: hiteshkumar
+-- Name: match attendence_match; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
 CREATE TRIGGER attendence_match BEFORE INSERT ON public.match FOR EACH ROW EXECUTE FUNCTION public.attendence_constraint();
 
 
 --
--- Name: venue attendence_venue; Type: TRIGGER; Schema: public; Owner: hiteshkumar
+-- Name: venue attendence_venue; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
 CREATE TRIGGER attendence_venue BEFORE INSERT ON public.venue FOR EACH ROW EXECUTE FUNCTION public.attendence_constraint();
 
 
 --
--- Name: owner stake_team; Type: TRIGGER; Schema: public; Owner: hiteshkumar
+-- Name: owner stake_team; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
 CREATE TRIGGER stake_team BEFORE INSERT ON public.owner FOR EACH ROW EXECUTE FUNCTION public.stake_constraint();
 
 
 --
--- Name: umpire_match umpire_excess; Type: TRIGGER; Schema: public; Owner: hiteshkumar
+-- Name: umpire_match umpire_excess; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
 CREATE TRIGGER umpire_excess BEFORE INSERT ON public.umpire_match FOR EACH ROW EXECUTE FUNCTION public.umpire_constraint();
 
 
 --
--- Name: ball_by_ball ball_by_ball_bowler_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: ball_by_ball ball_by_ball_bowler_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.ball_by_ball
@@ -386,7 +386,7 @@ ALTER TABLE ONLY public.ball_by_ball
 
 
 --
--- Name: ball_by_ball ball_by_ball_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: ball_by_ball ball_by_ball_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.ball_by_ball
@@ -394,7 +394,7 @@ ALTER TABLE ONLY public.ball_by_ball
 
 
 --
--- Name: ball_by_ball ball_by_ball_non_striker_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: ball_by_ball ball_by_ball_non_striker_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.ball_by_ball
@@ -402,7 +402,7 @@ ALTER TABLE ONLY public.ball_by_ball
 
 
 --
--- Name: ball_by_ball ball_by_ball_striker_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: ball_by_ball ball_by_ball_striker_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.ball_by_ball
@@ -410,7 +410,7 @@ ALTER TABLE ONLY public.ball_by_ball
 
 
 --
--- Name: match match_man_of_match_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_man_of_match_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -418,7 +418,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: match match_match_winner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_match_winner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -426,7 +426,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: match match_team1_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_team1_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -434,7 +434,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: match match_team2_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_team2_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -442,7 +442,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: match match_toss_winner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_toss_winner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -450,7 +450,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: match match_venue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: match match_venue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.match
@@ -458,7 +458,7 @@ ALTER TABLE ONLY public.match
 
 
 --
--- Name: owner owner_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: owner owner_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.owner
@@ -466,7 +466,7 @@ ALTER TABLE ONLY public.owner
 
 
 --
--- Name: player_match player_match_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: player_match player_match_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.player_match
@@ -474,7 +474,7 @@ ALTER TABLE ONLY public.player_match
 
 
 --
--- Name: player_match player_match_player_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: player_match player_match_player_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.player_match
@@ -482,7 +482,7 @@ ALTER TABLE ONLY public.player_match
 
 
 --
--- Name: player_match player_match_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: player_match player_match_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.player_match
@@ -490,7 +490,7 @@ ALTER TABLE ONLY public.player_match
 
 
 --
--- Name: umpire_match umpire_match_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: umpire_match umpire_match_match_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.umpire_match
@@ -498,7 +498,7 @@ ALTER TABLE ONLY public.umpire_match
 
 
 --
--- Name: umpire_match umpire_match_umpire_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: hiteshkumar
+-- Name: umpire_match umpire_match_umpire_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.umpire_match
