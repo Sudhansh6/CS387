@@ -1,0 +1,69 @@
+// Query a
+match (u: User {name: "Thomas"})-[:Sent]->(t: Tweet)-[:Contains]->(h: Hashtag)
+match (t1: Tweet)-[:Contains]->(h:Hashtag)
+match (t1: Tweet)-[:Mentions]->(users: User)
+return distinct users.name 
+;
+// Query b
+match (u1: User)
+where u1.name <> 'Jessica' 
+match p = shortestPath((u: User {name: "Jessica"})-[:Follows*1..]->(u1: User))
+return coalesce(max(length(p)), 0) as hops
+;
+// Query c
+match (:User {name: "Jessica"})<-[:Follows]-(u2:User) 
+with count(u2) as count1
+match (u1:User)<-[:Follows]-(u3:User)
+with count(u3) as count2, u1, count1
+match (u1:User)
+where count2 > count1
+return u1.name
+;
+// Query d
+match (u1:User)
+with u1, coalesce(size((u1: User)<-[:Follows]-(:User)), 0) as count
+return u1.name, count
+order by count, u1.name
+limit 5
+;
+// Query e
+match (u1:User)
+with u1, coalesce(size((u1)-[:Sent]->(: Tweet)<-[:Sent]-(: User)), 0) as count
+return u1.name, count
+order by count desc, u1.name
+limit 5
+;
+// Query f
+match (t:Tweet)-[:Contains]->(h:Hashtag {tag: "proud"})
+where t.text starts with 'we'
+return t.text
+;
+// Query g
+match (t:Tweet)
+where t.text =~ '.*run.*'
+return count(t) as count
+;
+// Query h
+match (t1:Tweet)-[:Contains]->(h1: Hashtag)
+with t1, count(h1) as count
+with max(count) as argmax
+match (t:Tweet)-[:Contains]->(h: Hashtag)
+with t, count(h) as count, argmax
+match (t: Tweet)
+where count = argmax
+return t.text, count
+;
+// Query i 
+MATCH (u:User {name: "Ashley"})
+SET u.name = "Ash"
+;
+// Query j
+match (h: Hashtag)<-[:Contains]-(t: Tweet)<-[:Sent]-(d: User)-[:Follows]->(c: User)-[:Follows]-(b: User)-[:Follows]->(a: User)
+where size(h.tag) > 15
+match (t: Tweet)-[:Mentions]->(b: User)
+return distinct a.name, t.text
+;
+// Query k
+match (u1: User {name: "Thomas"})-[:Sent]->(t:Tweet)-[:Mentions]->(u2:User)
+detach delete u2
+;
